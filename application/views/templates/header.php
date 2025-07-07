@@ -40,6 +40,12 @@
                             <button id="user-menu-button" class="flex items-center space-x-1 hover:text-indigo-200 focus:outline-none" aria-expanded="false" aria-haspopup="true">
                                 <?php if (!empty($this->session->userdata('profile_image')) && file_exists(FCPATH . 'uploads/profile_pictures/' . $this->session->userdata('profile_image'))): ?>
                                     <img src="<?= base_url('uploads/profile_pictures/' . $this->session->userdata('profile_image')) ?>" alt="Profile" class="h-8 w-8 rounded-full object-cover mr-2">
+                                <?php else: ?>
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-300 mr-2">
+                                        <span class="text-sm font-medium leading-none text-indigo-800">
+                                            <?= strtoupper(substr($this->session->userdata('full_name'), 0, 1)) ?>
+                                        </span>
+                                    </span>
                                 <?php endif; ?>
                                 <span><?= $this->session->userdata('full_name') ?></span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform duration-200" id="dropdown-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
