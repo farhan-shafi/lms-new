@@ -30,6 +30,9 @@ class Instructor extends CI_Controller {
         $data['courses'] = $this->course_model->get_instructor_courses($instructor_id);
         $data['title'] = 'Instructor Dashboard';
         
+        // Get instructor statistics
+        $data['stats'] = $this->course_model->get_instructor_stats($instructor_id);
+        
         // Load views
         $this->load->view('templates/header', $data);
         $this->load->view('instructor/dashboard', $data);
@@ -310,5 +313,66 @@ class Instructor extends CI_Controller {
         }
         
         redirect('instructor/lessons/' . $course_id);
+    }
+
+    // Course Analytics
+    public function course_analytics($course_id) {
+        // Get course analytics
+        $data['analytics'] = $this->course_model->get_course_analytics($course_id);
+        
+        if (!$data['analytics']) {
+            show_404();
+        }
+        
+        // Check if the instructor owns this course
+        if ($data['analytics']['course']->instructor_id != $this->session->userdata('user_id')) {
+            $this->session->set_flashdata('error', 'You do not have permission to view analytics for this course');
+            redirect('instructor/courses');
+        }
+        
+        $data['title'] = 'Course Analytics - ' . $data['analytics']['course']->title;
+        
+        // Load views
+        $this->load->view('templates/header', $data);
+        $this->load->view('instructor/course_analytics', $data);
+        $this->load->view('templates/footer');
+    }
+
+    // Student Progress Details (AJAX)
+    public function student_progress($course_id, $student_id) {
+        // Verify instructor ownership
+        $course = $this->course_model->get_course($course_id);
+        if (!$course || $course->instructor_id != $this->session->userdata('user_id')) {
+            show_404();
+        }
+
+        // Get detailed student progress
+        $progress = $this->lesson_model->get_course_progress($student_id, $course_id);
+        $lessons = $this->lesson_model->get_course_lessons($course_id);
+        
+        // Get lesson completion details
+        foreach ($lessons as $lesson) {
+            $lesson->is_completed = $this->lesson_model->is_lesson_completed($student_id, $lesson->id);
+            $lesson->completed_at = $this->lesson_model->get_lesson_completion_date($student_id, $lesson->id);
+        }
+
+        $data = array(
+            'course' => $course,
+            'progress' => $progress,
+            'lessons' => $lessons,
+            'student' => $this->user_model->get_user($student_id)
+        );
+
+        // Return JSON for AJAX requests
+        if ($this->input->is_ajax_request()) {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($data));
+        } else {
+            $data['title'] = 'Student Progress - ' . $course->title;
+            $this->load->view('templates/header', $data);
+            $this->load->view('instructor/student_progress', $data);
+            $this->load->view('templates/footer');
+        }
     }
 } 

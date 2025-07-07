@@ -152,4 +152,115 @@ class Course_model extends CI_Model {
         
         return $query->num_rows() > 0;
     }
+
+    // Get course analytics for instructor
+    public function get_course_analytics($course_id) {
+        // Get basic course info
+        $course = $this->get_course($course_id);
+        if (!$course) {
+            return false;
+        }
+
+        // Get total enrollments
+        $this->db->where('course_id', $course_id);
+        $total_enrollments = $this->db->count_all_results('enrollments');
+
+        // Get enrolled students with their progress
+        $this->db->select('users.id, users.full_name, users.email, enrollments.enrolled_at');
+        $this->db->from('enrollments');
+        $this->db->join('users', 'users.id = enrollments.user_id');
+        $this->db->where('enrollments.course_id', $course_id);
+        $this->db->order_by('enrollments.enrolled_at', 'DESC');
+        $enrolled_students = $this->db->get()->result();
+
+        // Get total lessons for this course
+        $this->db->where('course_id', $course_id);
+        $total_lessons = $this->db->count_all_results('lessons');
+
+        // Add progress data for each student
+        $this->load->model('lesson_model');
+        foreach ($enrolled_students as $student) {
+            $progress = $this->lesson_model->get_course_progress($student->id, $course_id);
+            $student->progress_percentage = $progress['percentage'];
+            $student->completed_lessons = $progress['completed'];
+            $student->total_lessons = $progress['total'];
+            $student->last_activity = $this->get_student_last_activity($student->id, $course_id);
+        }
+
+        // Calculate overall statistics
+        $total_progress = 0;
+        $active_students = 0; // Students with > 0% progress
+        $completed_students = 0; // Students with 100% progress
+
+        foreach ($enrolled_students as $student) {
+            $total_progress += $student->progress_percentage;
+            if ($student->progress_percentage > 0) {
+                $active_students++;
+            }
+            if ($student->progress_percentage >= 100) {
+                $completed_students++;
+            }
+        }
+
+        $average_progress = $total_enrollments > 0 ? round($total_progress / $total_enrollments, 1) : 0;
+
+        return array(
+            'course' => $course,
+            'total_enrollments' => $total_enrollments,
+            'total_lessons' => $total_lessons,
+            'enrolled_students' => $enrolled_students,
+            'average_progress' => $average_progress,
+            'active_students' => $active_students,
+            'completed_students' => $completed_students,
+            'completion_rate' => $total_enrollments > 0 ? round(($completed_students / $total_enrollments) * 100, 1) : 0
+        );
+    }
+
+    // Get student's last activity in a course
+    public function get_student_last_activity($user_id, $course_id) {
+        $this->db->select('MAX(lesson_progress.last_accessed) as last_activity');
+        $this->db->from('lesson_progress');
+        $this->db->join('lessons', 'lessons.id = lesson_progress.lesson_id');
+        $this->db->where('lesson_progress.user_id', $user_id);
+        $this->db->where('lessons.course_id', $course_id);
+        $result = $this->db->get()->row();
+        
+        return $result ? $result->last_activity : null;
+    }
+
+    // Get instructor dashboard statistics
+    public function get_instructor_stats($instructor_id) {
+        // Get instructor's courses count
+        $this->db->where('instructor_id', $instructor_id);
+        $total_courses = $this->db->count_all_results('courses');
+
+        // Get total enrollments across all instructor's courses
+        $this->db->select('COUNT(enrollments.id) as total_enrollments');
+        $this->db->from('enrollments');
+        $this->db->join('courses', 'courses.id = enrollments.course_id');
+        $this->db->where('courses.instructor_id', $instructor_id);
+        $total_enrollments = $this->db->get()->row()->total_enrollments;
+
+        // Get total lessons across all instructor's courses
+        $this->db->select('COUNT(lessons.id) as total_lessons');
+        $this->db->from('lessons');
+        $this->db->join('courses', 'courses.id = lessons.course_id');
+        $this->db->where('courses.instructor_id', $instructor_id);
+        $total_lessons = $this->db->get()->row()->total_lessons;
+
+        // Get recent enrollments (last 30 days)
+        $this->db->select('COUNT(enrollments.id) as recent_enrollments');
+        $this->db->from('enrollments');
+        $this->db->join('courses', 'courses.id = enrollments.course_id');
+        $this->db->where('courses.instructor_id', $instructor_id);
+        $this->db->where('enrollments.enrolled_at >=', date('Y-m-d H:i:s', strtotime('-30 days')));
+        $recent_enrollments = $this->db->get()->row()->recent_enrollments;
+
+        return array(
+            'total_courses' => $total_courses,
+            'total_enrollments' => $total_enrollments,
+            'total_lessons' => $total_lessons,
+            'recent_enrollments' => $recent_enrollments
+        );
+    }
 } 
