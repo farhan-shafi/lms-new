@@ -11,8 +11,8 @@
                 <p class="text-indigo-100"><?= $course->description ?></p>
             </div>
             <div class="md:w-1/3">
-                <?php if ($course->thumbnail): ?>
-                    <img src="<?= base_url('uploads/' . $course->thumbnail) ?>" alt="<?= $course->title ?>" class="rounded-lg shadow-lg w-full">
+                <?php if (!empty($course->thumbnail) && file_exists(FCPATH . 'uploads/thumbnails/' . $course->thumbnail)): ?>
+                    <img src="<?= base_url('uploads/thumbnails/' . $course->thumbnail) ?>" alt="<?= $course->title ?>" class="rounded-lg shadow-lg w-full">
                 <?php else: ?>
                     <div class="w-full h-48 bg-indigo-600 rounded-lg shadow-lg flex items-center justify-center">
                         <span class="text-white text-lg font-semibold"><?= $course->title ?></span>

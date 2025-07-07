@@ -156,7 +156,7 @@
             <?php foreach ($courses as $course): ?>
                 <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
                     <?php if (!empty($course->thumbnail)): ?>
-                        <img src="<?= base_url('uploads/' . $course->thumbnail) ?>" alt="<?= htmlspecialchars($course->title) ?>" class="w-full h-48 object-cover">
+                        <img src="<?= base_url('uploads/thumbnails/' . $course->thumbnail) ?>" alt="<?= htmlspecialchars($course->title) ?>" class="w-full h-48 object-cover">
                     <?php else: ?>
                         <div class="w-full h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
                             <svg class="h-16 w-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

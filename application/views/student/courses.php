@@ -71,7 +71,7 @@
                     
                     <!-- Course Image -->
                     <?php if (!empty($course->thumbnail)): ?>
-                        <img src="<?= base_url('uploads/' . $course->thumbnail) ?>" 
+                        <img src="<?= base_url('uploads/thumbnails/' . $course->thumbnail) ?>" 
                              alt="<?= htmlspecialchars($course->title) ?>" 
                              class="w-full h-48 object-cover">
                     <?php else: ?>

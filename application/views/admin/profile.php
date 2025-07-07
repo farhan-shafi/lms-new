@@ -2,9 +2,9 @@
 <div class="bg-gradient-to-r from-red-600 to-pink-600 text-white rounded-lg p-8 mb-8">
     <div class="flex items-center">
         <div class="flex-shrink-0">
-            <?php if (!empty($user->profile_picture)): ?>
+            <?php if (!empty($user->profile_image) && file_exists(FCPATH . 'uploads/profile_pictures/' . $user->profile_image)): ?>
                 <div class="w-20 h-20 rounded-full overflow-hidden">
-                    <img src="<?= base_url('uploads/profile_pictures/' . $user->profile_picture) ?>" alt="Profile picture" class="w-full h-full object-cover">
+                    <img src="<?= base_url('uploads/profile_pictures/' . $user->profile_image) ?>" alt="Profile picture" class="w-full h-full object-cover">
                 </div>
             <?php else: ?>
                 <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center">

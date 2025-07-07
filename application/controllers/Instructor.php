@@ -81,10 +81,21 @@ class Instructor extends CI_Controller {
             if ($course_id) {
                 // Upload thumbnail if provided
                 if (!empty($_FILES['thumbnail']['name'])) {
+                    // Debug information
+                    error_log('Attempting to upload thumbnail for course ID: ' . $course_id);
+                    error_log('File info: ' . print_r($_FILES['thumbnail'], true));
+                    
+                    // Load upload library
+                    $this->load->library('upload');
+                    
                     $uploaded = $this->course_model->upload_thumbnail($course_id);
                     
                     if (!$uploaded) {
-                        $this->session->set_flashdata('warning', 'Course created successfully, but thumbnail could not be uploaded.');
+                        $error = $this->upload->display_errors('', '');
+                        $this->session->set_flashdata('warning', 'Course created successfully, but thumbnail could not be uploaded: ' . $error);
+                        error_log('Thumbnail upload failed: ' . $error);
+                    } else {
+                        $this->session->set_flashdata('success', 'Course and thumbnail created successfully.');
                     }
                 }
                 
@@ -138,10 +149,21 @@ class Instructor extends CI_Controller {
             
             // Upload thumbnail if provided
             if (!empty($_FILES['thumbnail']['name'])) {
+                // Debug information
+                error_log('Attempting to upload thumbnail for course ID: ' . $course_id);
+                error_log('File info: ' . print_r($_FILES['thumbnail'], true));
+                
+                // Load upload library
+                $this->load->library('upload');
+                
                 $uploaded = $this->course_model->upload_thumbnail($course_id);
                 
                 if (!$uploaded) {
-                    $this->session->set_flashdata('warning', 'Course updated successfully, but thumbnail could not be uploaded.');
+                    $error = $this->upload->display_errors('', '');
+                    $this->session->set_flashdata('warning', 'Course updated successfully, but thumbnail could not be uploaded: ' . $error);
+                    error_log('Thumbnail upload failed: ' . $error);
+                } else {
+                    $this->session->set_flashdata('success', 'Course and thumbnail updated successfully.');
                 }
             }
             
@@ -452,6 +474,13 @@ class Instructor extends CI_Controller {
                 if (!$uploaded) {
                     $this->session->set_flashdata('warning', 'Profile updated, but profile picture could not be uploaded: ' . $this->upload->display_errors('', ''));
                     $profile_updated = false;
+                } else {
+                    // Get updated user data to refresh session
+                    $updated_user = $this->user_model->get_user($instructor_id);
+                    if ($updated_user) {
+                        // Update profile image in session
+                        $this->session->set_userdata('profile_image', $updated_user->profile_image);
+                    }
                 }
             }
             

@@ -65,11 +65,11 @@
         <div>
             <label for="thumbnail" class="block text-sm font-medium text-gray-700 mb-2">Course Thumbnail</label>
             <div class="flex items-start space-x-4">
-                <?php if (!empty($course->thumbnail)): ?>
-                    <div class="flex-shrink-0">
-                        <img src="<?= base_url('uploads/thumbnails/' . $course->thumbnail) ?>" alt="Current thumbnail" class="h-32 w-56 object-cover rounded">
-                    </div>
-                <?php endif; ?>
+                                    <?php if (!empty($course->thumbnail) && file_exists(FCPATH . 'uploads/thumbnails/' . $course->thumbnail)): ?>
+                        <div class="flex-shrink-0">
+                            <img src="<?= base_url('uploads/thumbnails/' . $course->thumbnail) ?>" alt="Current thumbnail" class="h-32 w-56 object-cover rounded">
+                        </div>
+                    <?php endif; ?>
                 <div class="flex-grow">
                     <input type="file" 
                            id="thumbnail" 

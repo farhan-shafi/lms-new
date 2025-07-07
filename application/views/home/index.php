@@ -37,7 +37,7 @@
                 <?php foreach (array_slice($courses, 0, 6) as $course): ?>
                     <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                         <?php if ($course->thumbnail): ?>
-                            <img src="<?= base_url('uploads/' . $course->thumbnail) ?>" alt="<?= $course->title ?>" class="w-full h-48 object-cover">
+                            <img src="<?= base_url('uploads/thumbnails/' . $course->thumbnail) ?>" alt="<?= $course->title ?>" class="w-full h-48 object-cover">
                         <?php else: ?>
                             <div class="w-full h-48 bg-indigo-100 flex items-center justify-center">
                                 <span class="text-indigo-500 text-lg font-semibold"><?= $course->title ?></span>

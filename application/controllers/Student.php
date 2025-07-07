@@ -216,11 +216,28 @@ class Student extends CI_Controller {
                 // Load upload library
                 $this->load->library('upload');
                 
+                // Debug information
+                error_log('Attempting to upload profile picture for user ID: ' . $student_id);
+                error_log('File info: ' . print_r($_FILES['profile_picture'], true));
+                
                 $uploaded = $this->user_model->upload_profile_picture($student_id);
                 
                 if (!$uploaded) {
-                    $this->session->set_flashdata('warning', 'Profile updated, but profile picture could not be uploaded: ' . $this->upload->display_errors('', ''));
+                    $this->load->library('upload');
+                    $error = $this->upload->display_errors('', '');
+                    $this->session->set_flashdata('warning', 'Profile updated, but profile picture could not be uploaded: ' . $error);
+                    error_log('Profile picture upload failed: ' . $error);
                     $profile_updated = false;
+                } else {
+                    // Get updated user data to refresh session
+                    $updated_user = $this->user_model->get_user($student_id);
+                    if ($updated_user) {
+                        // Update profile image in session
+                        $this->session->set_userdata('profile_image', $updated_user->profile_image);
+                    }
+                    
+                    $this->session->set_flashdata('success', 'Profile and profile picture updated successfully.');
+                    $profile_updated = true;
                 }
             }
             

@@ -128,7 +128,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="flex-shrink-0 h-10 w-10">
-                                                <?php if ($course->thumbnail): ?>
+                                                <?php if (!empty($course->thumbnail) && file_exists(FCPATH . 'uploads/thumbnails/' . $course->thumbnail)): ?>
                                                     <img class="h-10 w-10 rounded-full object-cover" src="<?= base_url('uploads/thumbnails/' . $course->thumbnail) ?>" alt="<?= $course->title ?>">
                                                 <?php else: ?>
                                                     <div class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">

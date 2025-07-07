@@ -1,7 +1,7 @@
 <!-- Course Header -->
 <div class="bg-white shadow rounded-lg overflow-hidden mb-6">
     <?php if (!empty($course->thumbnail)): ?>
-        <img src="<?= base_url('uploads/' . $course->thumbnail) ?>" alt="<?= htmlspecialchars($course->title) ?>" class="w-full h-64 object-cover">
+        <img src="<?= base_url('uploads/thumbnails/' . $course->thumbnail) ?>" alt="<?= htmlspecialchars($course->title) ?>" class="w-full h-64 object-cover">
     <?php else: ?>
         <div class="w-full h-64 bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-600 flex items-center justify-center">
             <svg class="h-24 w-24 text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
