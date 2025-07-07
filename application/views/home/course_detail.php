@@ -12,7 +12,7 @@
             </div>
             <div class="md:w-1/3">
                 <?php if ($course->thumbnail): ?>
-                    <img src="<?= base_url('uploads/thumbnails/' . $course->thumbnail) ?>" alt="<?= $course->title ?>" class="rounded-lg shadow-lg w-full">
+                    <img src="<?= base_url('uploads/' . $course->thumbnail) ?>" alt="<?= $course->title ?>" class="rounded-lg shadow-lg w-full">
                 <?php else: ?>
                     <div class="w-full h-48 bg-indigo-600 rounded-lg shadow-lg flex items-center justify-center">
                         <span class="text-white text-lg font-semibold"><?= $course->title ?></span>
@@ -99,11 +99,17 @@
                         <div class="bg-green-100 text-green-800 p-3 rounded-md mb-4">
                             You are enrolled in this course.
                         </div>
-                        <a href="<?= base_url('home/lesson/' . $course->id . '/' . $lessons[0]->id) ?>" class="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded w-full">
-                            Continue Learning
-                        </a>
+                        <?php if (!empty($lessons)): ?>
+                            <a href="<?= base_url('home/lesson/' . $course->id . '/' . $lessons[0]->id) ?>" class="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded w-full">
+                                Continue Learning
+                            </a>
+                        <?php else: ?>
+                            <div class="block text-center bg-gray-400 text-white font-medium py-2 px-4 rounded w-full">
+                                No lessons available
+                            </div>
+                        <?php endif; ?>
                     <?php elseif ($this->session->userdata('role') == 'student'): ?>
-                        <a href="<?= base_url('student/enroll/' . $course->id) ?>" class="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded w-full">
+                        <a href="<?= base_url('home/enroll/' . $course->id) ?>" class="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded w-full">
                             Enroll Now
                         </a>
                     <?php endif; ?>
