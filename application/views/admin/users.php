@@ -15,11 +15,15 @@
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0">
+                                        <?php if (!empty($user->profile_image) && file_exists(FCPATH . 'uploads/profile_pictures/' . $user->profile_image)): ?>
+                                            <img class="h-10 w-10 rounded-full object-cover" src="<?= base_url('uploads/profile_pictures/' . $user->profile_image) ?>" alt="<?= htmlspecialchars($user->full_name) ?>">
+                                        <?php else: ?>
                                         <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-500">
                                             <span class="text-sm font-medium leading-none text-white">
                                                 <?= strtoupper(substr($user->full_name, 0, 1)) ?>
                                             </span>
                                         </span>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">
