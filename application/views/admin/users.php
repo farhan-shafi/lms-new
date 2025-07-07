@@ -44,6 +44,8 @@
                                         <?php endif; ?>">
                                         <?= ucfirst($user->role) ?>
                                     </span>
+                                    <a href="<?= base_url('admin/view_user/' . $user->id) ?>" 
+                                       class="text-blue-600 hover:text-blue-900 text-sm">View</a>
                                     <a href="<?= base_url('admin/edit_user/' . $user->id) ?>" 
                                        class="text-indigo-600 hover:text-indigo-900 text-sm">Edit</a>
                                     <?php if ($user->id != $this->session->userdata('user_id')): ?>

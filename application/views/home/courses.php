@@ -42,8 +42,8 @@
         <div id="courses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <?php foreach ($courses as $course): ?>
                 <div class="course-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-category="<?= $course->category_id ?>">
-                    <?php if ($course->thumbnail): ?>
-                        <img src="<?= base_url('uploads/' . $course->thumbnail) ?>" alt="<?= $course->title ?>" class="w-full h-48 object-cover">
+                    <?php if (!empty($course->thumbnail) && file_exists(FCPATH . 'uploads/thumbnails/' . $course->thumbnail)): ?>
+                        <img src="<?= base_url('uploads/thumbnails/' . $course->thumbnail) ?>" alt="<?= $course->title ?>" class="w-full h-48 object-cover">
                     <?php else: ?>
                         <div class="w-full h-48 bg-indigo-100 flex items-center justify-center">
                             <span class="text-indigo-500 text-lg font-semibold"><?= $course->title ?></span>

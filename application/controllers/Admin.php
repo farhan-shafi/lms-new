@@ -544,6 +544,13 @@ class Admin extends CI_Controller {
                 if (!$uploaded) {
                     $this->session->set_flashdata('warning', 'Profile updated, but profile picture could not be uploaded: ' . $this->upload->display_errors('', ''));
                     $profile_updated = false;
+                } else {
+                    // Get updated user data to refresh session
+                    $updated_user = $this->user_model->get_user($admin_id);
+                    if ($updated_user) {
+                        // Update profile image in session
+                        $this->session->set_userdata('profile_image', $updated_user->profile_image);
+                    }
                 }
             }
             
@@ -559,5 +566,34 @@ class Admin extends CI_Controller {
                 redirect('admin/edit_profile');
             }
         }
+    }
+
+    public function view_user($user_id) {
+        // Get user details
+        $data['user'] = $this->user_model->get_user($user_id);
+        
+        if (!$data['user']) {
+            show_404();
+        }
+        
+        $data['title'] = 'User Profile - ' . $data['user']->full_name;
+        
+        // If user is an instructor, get their courses
+        if ($data['user']->role == 'instructor') {
+            $this->load->model('course_model');
+            $data['courses'] = $this->course_model->get_instructor_courses($user_id);
+            $data['stats'] = $this->course_model->get_instructor_stats($user_id);
+        }
+        
+        // If user is a student, get their enrolled courses
+        if ($data['user']->role == 'student') {
+            $this->load->model('course_model');
+            $data['enrolled_courses'] = $this->course_model->get_enrolled_courses($user_id);
+        }
+        
+        // Load views
+        $this->load->view('templates/header', $data);
+        $this->load->view('admin/view_user', $data);
+        $this->load->view('templates/footer');
     }
 } 

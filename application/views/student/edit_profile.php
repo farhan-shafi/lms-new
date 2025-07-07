@@ -64,9 +64,9 @@
             <div class="mb-6">
                 <label for="profile_picture" class="block text-sm font-medium text-gray-700 mb-2">Profile Picture</label>
                 <div class="flex items-start space-x-4">
-                    <?php if (!empty($user->profile_picture)): ?>
+                    <?php if (!empty($user->profile_image) && file_exists(FCPATH . 'uploads/profile_pictures/' . $user->profile_image)): ?>
                         <div class="flex-shrink-0">
-                            <img src="<?= base_url('uploads/profile_pictures/' . $user->profile_picture) ?>" alt="Current profile picture" class="h-24 w-24 object-cover rounded-full">
+                            <img src="<?= base_url('uploads/profile_pictures/' . $user->profile_image) ?>" alt="Current profile picture" class="h-24 w-24 object-cover rounded-full">
                         </div>
                     <?php endif; ?>
                     <div class="flex-grow">

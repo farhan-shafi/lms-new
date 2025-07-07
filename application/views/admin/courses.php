@@ -16,7 +16,7 @@
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0">
                                         <?php if (!empty($course->thumbnail)): ?>
-                                            <img class="h-10 w-10 rounded-full object-cover" src="<?= base_url('uploads/' . $course->thumbnail) ?>" alt="">
+                                            <img class="h-10 w-10 rounded-full object-cover" src="<?= base_url('uploads/thumbnails/' . $course->thumbnail) ?>" alt="">
                                         <?php else: ?>
                                             <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-purple-500">
                                                 <span class="text-sm font-medium leading-none text-white">

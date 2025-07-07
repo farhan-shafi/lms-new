@@ -90,7 +90,7 @@ class User_model extends CI_Model {
         $this->load->library('upload');
         
         // Create upload directory if it doesn't exist
-        $upload_path = './uploads/profile_pictures/';
+        $upload_path = FCPATH . 'uploads/profile_pictures/';
         if (!is_dir($upload_path)) {
             mkdir($upload_path, 0777, TRUE);
         }
@@ -100,7 +100,9 @@ class User_model extends CI_Model {
             'upload_path' => $upload_path,
             'allowed_types' => 'gif|jpg|jpeg|png',
             'max_size' => 2048, // 2MB
-            'encrypt_name' => TRUE
+            'encrypt_name' => TRUE,
+            'remove_spaces' => TRUE,
+            'overwrite' => FALSE
         );
         
         $this->upload->initialize($config);
@@ -112,9 +114,13 @@ class User_model extends CI_Model {
             
             // Update user record with new profile picture
             $this->db->where('id', $user_id);
-            $this->db->update('users', array('profile_picture' => $profile_picture));
+            $this->db->update('users', array('profile_image' => $profile_picture));
             
             return $profile_picture;
+        } else {
+            // For debugging
+            error_log('Profile picture upload failed: ' . $this->upload->display_errors('', ''));
+            error_log('Upload path: ' . realpath($upload_path));
         }
         
         return FALSE;

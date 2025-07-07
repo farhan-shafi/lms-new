@@ -228,38 +228,38 @@ class Course_model extends CI_Model {
         return $result ? $result->last_activity : null;
     }
 
-    // Get instructor dashboard statistics
+    // Get instructor statistics for dashboard
     public function get_instructor_stats($instructor_id) {
-        // Get instructor's courses count
+        // Get total courses
         $this->db->where('instructor_id', $instructor_id);
         $total_courses = $this->db->count_all_results('courses');
-
-        // Get total enrollments across all instructor's courses
-        $this->db->select('COUNT(enrollments.id) as total_enrollments');
-        $this->db->from('enrollments');
-        $this->db->join('courses', 'courses.id = enrollments.course_id');
-        $this->db->where('courses.instructor_id', $instructor_id);
-        $total_enrollments = $this->db->get()->row()->total_enrollments;
-
-        // Get total lessons across all instructor's courses
-        $this->db->select('COUNT(lessons.id) as total_lessons');
+        
+        // Get total lessons
+        $this->db->select('COUNT(*) as total_lessons');
         $this->db->from('lessons');
         $this->db->join('courses', 'courses.id = lessons.course_id');
         $this->db->where('courses.instructor_id', $instructor_id);
         $total_lessons = $this->db->get()->row()->total_lessons;
-
-        // Get recent enrollments (last 30 days)
-        $this->db->select('COUNT(enrollments.id) as recent_enrollments');
+        
+        // Get total enrollments for all instructor courses
+        $this->db->select('COUNT(*) as total_enrollments');
         $this->db->from('enrollments');
         $this->db->join('courses', 'courses.id = enrollments.course_id');
         $this->db->where('courses.instructor_id', $instructor_id);
-        $this->db->where('enrollments.enrolled_at >=', date('Y-m-d H:i:s', strtotime('-30 days')));
+        $total_enrollments = $this->db->get()->row()->total_enrollments;
+        
+        // Get recent enrollments (last 30 days)
+        $this->db->select('COUNT(*) as recent_enrollments');
+        $this->db->from('enrollments');
+        $this->db->join('courses', 'courses.id = enrollments.course_id');
+        $this->db->where('courses.instructor_id', $instructor_id);
+        $this->db->where('enrollments.enrolled_at >=', date('Y-m-d', strtotime('-30 days')));
         $recent_enrollments = $this->db->get()->row()->recent_enrollments;
-
+        
         return array(
             'total_courses' => $total_courses,
-            'total_enrollments' => $total_enrollments,
             'total_lessons' => $total_lessons,
+            'total_enrollments' => $total_enrollments,
             'recent_enrollments' => $recent_enrollments
         );
     }
@@ -270,7 +270,7 @@ class Course_model extends CI_Model {
         $this->load->library('upload');
         
         // Create upload directory if it doesn't exist
-        $upload_path = './uploads/thumbnails/';
+        $upload_path = FCPATH . 'uploads/thumbnails/';
         if (!is_dir($upload_path)) {
             mkdir($upload_path, 0777, TRUE);
         }
@@ -280,7 +280,9 @@ class Course_model extends CI_Model {
             'upload_path' => $upload_path,
             'allowed_types' => 'gif|jpg|jpeg|png',
             'max_size' => 2048, // 2MB
-            'encrypt_name' => TRUE
+            'encrypt_name' => TRUE,
+            'remove_spaces' => TRUE,
+            'overwrite' => FALSE
         );
         
         $this->upload->initialize($config);
@@ -295,6 +297,10 @@ class Course_model extends CI_Model {
             $this->db->update('courses', array('thumbnail' => $thumbnail));
             
             return $thumbnail;
+        } else {
+            // For debugging
+            error_log('Thumbnail upload failed: ' . $this->upload->display_errors('', ''));
+            error_log('Upload path: ' . realpath($upload_path));
         }
         
         return FALSE;
