@@ -222,4 +222,91 @@ class Student extends CI_Controller {
             }
         }
     }
+
+    public function mark_lesson_complete($lesson_id) {
+        // Ensure AJAX request
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+        
+        $student_id = $this->session->userdata('user_id');
+        $lesson = $this->lesson_model->get_lesson($lesson_id);
+        
+        if (!$lesson) {
+            echo json_encode(array('success' => false, 'message' => 'Lesson not found'));
+            return;
+        }
+        
+        // Check if student is enrolled in the course
+        $is_enrolled = $this->course_model->is_enrolled($student_id, $lesson->course_id);
+        if (!$is_enrolled) {
+            echo json_encode(array('success' => false, 'message' => 'You are not enrolled in this course'));
+            return;
+        }
+        
+        // Mark lesson as completed
+        $result = $this->lesson_model->mark_lesson_completed($student_id, $lesson_id);
+        
+        if ($result) {
+            // Get updated progress
+            $progress = $this->lesson_model->get_course_progress($student_id, $lesson->course_id);
+            
+            echo json_encode(array(
+                'success' => true, 
+                'message' => 'Lesson marked as completed!',
+                'progress' => $progress
+            ));
+        } else {
+            echo json_encode(array('success' => false, 'message' => 'Failed to mark lesson as completed'));
+        }
+    }
+
+    public function toggle_lesson_completion($lesson_id) {
+        // Ensure AJAX request
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+        
+        $student_id = $this->session->userdata('user_id');
+        $lesson = $this->lesson_model->get_lesson($lesson_id);
+        
+        if (!$lesson) {
+            echo json_encode(array('success' => false, 'message' => 'Lesson not found'));
+            return;
+        }
+        
+        // Check if student is enrolled in the course
+        $is_enrolled = $this->course_model->is_enrolled($student_id, $lesson->course_id);
+        if (!$is_enrolled) {
+            echo json_encode(array('success' => false, 'message' => 'You are not enrolled in this course'));
+            return;
+        }
+        
+        // Check current completion status
+        $is_completed = $this->lesson_model->is_lesson_completed($student_id, $lesson_id);
+        
+        if ($is_completed) {
+            // Mark as incomplete
+            $result = $this->lesson_model->mark_lesson_incomplete($student_id, $lesson_id);
+            $message = 'Lesson marked as incomplete';
+        } else {
+            // Mark as completed
+            $result = $this->lesson_model->mark_lesson_completed($student_id, $lesson_id);
+            $message = 'Lesson marked as completed!';
+        }
+        
+        if ($result) {
+            // Get updated progress
+            $progress = $this->lesson_model->get_course_progress($student_id, $lesson->course_id);
+            
+            echo json_encode(array(
+                'success' => true, 
+                'message' => $message,
+                'progress' => $progress,
+                'completed' => !$is_completed
+            ));
+        } else {
+            echo json_encode(array('success' => false, 'message' => 'Failed to update lesson status'));
+        }
+    }
 } 
