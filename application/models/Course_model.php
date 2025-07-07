@@ -129,7 +129,19 @@ class Course_model extends CI_Model {
         $this->db->order_by('enrollments.enrolled_at', 'DESC');
         
         $query = $this->db->get();
-        return $query->result();
+        $courses = $query->result();
+        
+        // Add progress information for each course
+        $this->load->model('lesson_model');
+        foreach ($courses as $course) {
+            $progress = $this->lesson_model->get_course_progress($user_id, $course->id);
+            $course->progress_percentage = $progress['percentage'];
+            $course->completed_lessons = $progress['completed'];
+            $course->total_lessons = $progress['total'];
+            $course->next_lesson_id = $progress['next_lesson'];
+        }
+        
+        return $courses;
     }
 
     // Check if user is enrolled in a course

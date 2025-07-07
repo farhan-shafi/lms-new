@@ -35,10 +35,133 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         Created: <?= date('M j, Y', strtotime($course->created_at)) ?>
-                    </div>
-                </div>
-            </div>
+                                </div>
         </div>
+    </div>
+</div>
+
+<!-- JavaScript for lesson completion from course page -->
+<script>
+function toggleLessonCompletionFromCourse(lessonId) {
+    const btn = document.getElementById('completion-btn-' + lessonId);
+    const originalClass = btn.className;
+    const originalTitle = btn.title;
+    
+    // Disable button and show loading state
+    btn.disabled = true;
+    btn.className = 'bg-gray-600 text-white px-3 py-2 rounded-md text-sm transition-colors cursor-not-allowed';
+    btn.innerHTML = '<svg class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+    
+    // Make AJAX request
+    fetch('<?= base_url("student/toggle_lesson_completion/") ?>' + lessonId, {
+        method: 'POST',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update button based on new completion status
+            if (data.completed) {
+                btn.className = 'bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-md text-sm transition-colors';
+                btn.title = 'Mark as incomplete';
+                
+                // Update completion badge in the lesson meta
+                const lessonDiv = btn.closest('.border.border-gray-200');
+                const metaDiv = lessonDiv.querySelector('.flex.items-center.mt-3');
+                let badge = metaDiv.querySelector('.bg-green-100');
+                if (!badge) {
+                    badge = document.createElement('span');
+                    badge.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800';
+                    badge.innerHTML = '<svg class="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Completed';
+                    metaDiv.appendChild(badge);
+                }
+            } else {
+                btn.className = 'bg-gray-400 hover:bg-gray-500 text-white px-3 py-2 rounded-md text-sm transition-colors';
+                btn.title = 'Mark as complete';
+                
+                // Remove completion badge
+                const lessonDiv = btn.closest('.border.border-gray-200');
+                const badge = lessonDiv.querySelector('.bg-green-100.text-green-800');
+                if (badge) {
+                    badge.remove();
+                }
+            }
+            
+            btn.innerHTML = '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+            
+            // Update progress bar and percentage
+            if (data.progress) {
+                const progressBar = document.querySelector('.bg-green-600.h-3');
+                const progressText = document.querySelector('.text-green-700.font-medium');
+                const completedText = progressText ? progressText.parentElement.querySelector('span') : null;
+                
+                if (progressBar) {
+                    progressBar.style.width = data.progress.percentage + '%';
+                }
+                if (progressText) {
+                    progressText.textContent = data.progress.percentage + '% Complete';
+                }
+                if (completedText) {
+                    completedText.textContent = data.progress.completed + ' of <?= count($lessons) ?> lessons completed';
+                }
+            }
+            
+            // Show success notification
+            showNotificationCourse(data.message, 'success');
+        } else {
+            // Show error message
+            showNotificationCourse(data.message, 'error');
+            
+            // Restore button
+            btn.className = originalClass;
+            btn.title = originalTitle;
+            btn.innerHTML = '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotificationCourse('An error occurred. Please try again.', 'error');
+        
+        // Restore button
+        btn.className = originalClass;
+        btn.title = originalTitle;
+        btn.innerHTML = '<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+    })
+    .finally(() => {
+        btn.disabled = false;
+    });
+}
+
+function showNotificationCourse(message, type) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 p-4 rounded-md shadow-lg z-50 ${
+        type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200'
+    }`;
+    notification.innerHTML = `
+        <div class="flex items-center">
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                ${type === 'success' 
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>'
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>'
+                }
+            </svg>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+</script>
 
         <!-- Enrollment Status & Progress -->
         <?php if ($is_enrolled): ?>
@@ -149,7 +272,7 @@
                                 </div>
                                 
                                 <!-- Action Button -->
-                                <div class="ml-4">
+                                <div class="ml-4 flex space-x-2">
                                     <?php if ($is_enrolled): ?>
                                         <a href="<?= base_url('student/lesson/' . $course->id . '/' . $lesson->id) ?>" 
                                            class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm">
@@ -159,6 +282,16 @@
                                                 Start
                                             <?php endif; ?>
                                         </a>
+                                        
+                                        <!-- Quick completion toggle -->
+                                        <button onclick="toggleLessonCompletionFromCourse(<?= $lesson->id ?>)" 
+                                                id="completion-btn-<?= $lesson->id ?>"
+                                                class="<?= (isset($progress['completed_lessons']) && in_array($lesson->id, $progress['completed_lessons'])) ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-400 hover:bg-gray-500' ?> text-white px-3 py-2 rounded-md text-sm transition-colors"
+                                                title="<?= (isset($progress['completed_lessons']) && in_array($lesson->id, $progress['completed_lessons'])) ? 'Mark as incomplete' : 'Mark as complete' ?>">
+                                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                        </button>
                                     <?php else: ?>
                                         <button class="bg-gray-300 text-gray-500 px-4 py-2 rounded-md text-sm cursor-not-allowed" disabled>
                                             Locked

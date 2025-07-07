@@ -55,12 +55,11 @@
                        class="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 transition-colors">
                         Back to Course
                     </a>
-                    <?php if (!$is_completed): ?>
-                        <button onclick="markAsCompleted()" 
-                                class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors">
-                            Mark as Complete
-                        </button>
-                    <?php endif; ?>
+                                        <button onclick="toggleLessonCompletion()" 
+                            id="completion-btn"
+                            class="<?= $is_completed ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-green-600 hover:bg-green-700' ?> text-white px-4 py-2 rounded-md transition-colors">
+                        <?= $is_completed ? 'Mark as Incomplete' : 'Mark as Complete' ?>
+                    </button>
                 </div>
             </div>
             
@@ -288,13 +287,110 @@
     </div>
 </div>
 
-<!-- JavaScript for mark as completed functionality -->
+<!-- JavaScript for lesson completion functionality -->
 <script>
-function markAsCompleted() {
-    if (confirm('Mark this lesson as completed?')) {
-        // You could add AJAX here to mark lesson as completed
-        // For now, just reload the page - the controller already marks it as accessed
-        location.reload();
-    }
+function toggleLessonCompletion() {
+    const btn = document.getElementById('completion-btn');
+    const originalText = btn.textContent;
+    
+    // Disable button and show loading state
+    btn.disabled = true;
+    btn.textContent = 'Loading...';
+    btn.className = 'bg-gray-600 text-white px-4 py-2 rounded-md transition-colors cursor-not-allowed';
+    
+    // Make AJAX request
+    fetch('<?= base_url("student/toggle_lesson_completion/" . $lesson->id) ?>', {
+        method: 'POST',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update button based on new completion status
+            if (data.completed) {
+                btn.textContent = 'Mark as Incomplete';
+                btn.className = 'bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md transition-colors';
+                
+                // Add completed badge to lesson header if not exists
+                const lessonHeader = document.querySelector('.text-3xl.font-bold.text-gray-900').parentElement;
+                if (!lessonHeader.querySelector('.bg-green-100')) {
+                    const badge = document.createElement('span');
+                    badge.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800';
+                    badge.innerHTML = '<svg class="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Completed';
+                    lessonHeader.appendChild(badge);
+                }
+            } else {
+                btn.textContent = 'Mark as Complete';
+                btn.className = 'bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition-colors';
+                
+                // Remove completed badge if exists
+                const badge = document.querySelector('.bg-green-100.text-green-800');
+                if (badge) {
+                    badge.remove();
+                }
+            }
+            
+            // Update progress bar
+            if (data.progress) {
+                const progressBar = document.querySelector('.bg-blue-600.h-2');
+                const progressText = document.querySelector('.text-gray-600');
+                if (progressBar && progressText) {
+                    progressBar.style.width = data.progress.percentage + '%';
+                    progressText.textContent = data.progress.percentage + '%';
+                }
+            }
+            
+            // Show success message
+            showNotification(data.message, 'success');
+        } else {
+            // Show error message
+            showNotification(data.message, 'error');
+            
+            // Restore button
+            btn.textContent = originalText;
+            btn.className = '<?= $is_completed ? "bg-yellow-600 hover:bg-yellow-700" : "bg-green-600 hover:bg-green-700" ?> text-white px-4 py-2 rounded-md transition-colors';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('An error occurred. Please try again.', 'error');
+        
+        // Restore button
+        btn.textContent = originalText;
+        btn.className = '<?= $is_completed ? "bg-yellow-600 hover:bg-yellow-700" : "bg-green-600 hover:bg-green-700" ?> text-white px-4 py-2 rounded-md transition-colors';
+    })
+    .finally(() => {
+        btn.disabled = false;
+    });
+}
+
+function showNotification(message, type) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 p-4 rounded-md shadow-lg z-50 ${
+        type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200'
+    }`;
+    notification.innerHTML = `
+        <div class="flex items-center">
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                ${type === 'success' 
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>'
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>'
+                }
+            </svg>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
 }
 </script> 
