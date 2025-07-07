@@ -14,13 +14,12 @@ class Course_model extends CI_Model {
         return $this->db->insert_id();
     }
 
-    // Get all courses
+    // Get all courses (for admin)
     public function get_all_courses() {
         $this->db->select('courses.*, categories.name as category_name, users.full_name as instructor_name');
         $this->db->from('courses');
         $this->db->join('categories', 'categories.id = courses.category_id', 'left');
         $this->db->join('users', 'users.id = courses.instructor_id', 'left');
-        $this->db->where('courses.status', 'published');
         $this->db->order_by('courses.created_at', 'DESC');
         
         $query = $this->db->get();
