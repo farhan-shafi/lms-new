@@ -52,12 +52,26 @@
                                         </svg>
                                         Admin Dashboard
                                     </a>
+                                    <hr class="my-1">
+                                    <a href="<?= base_url('admin/profile') ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <svg class="inline h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                        </svg>
+                                        Profile
+                                    </a>
                                 <?php elseif ($this->session->userdata('role') == 'instructor'): ?>
                                     <a href="<?= base_url('instructor/dashboard') ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         <svg class="inline h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                                         </svg>
                                         Instructor Dashboard
+                                    </a>
+                                    <hr class="my-1">
+                                    <a href="<?= base_url('instructor/profile') ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <svg class="inline h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                        </svg>
+                                        Profile
                                     </a>
                                 <?php elseif ($this->session->userdata('role') == 'student'): ?>
                                     <a href="<?= base_url('student/dashboard') ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -106,8 +120,10 @@
             <?php if ($this->session->userdata('logged_in')): ?>
                 <?php if ($this->session->userdata('role') == 'admin'): ?>
                     <a href="<?= base_url('admin/dashboard') ?>" class="block px-3 py-2 text-white hover:bg-indigo-600 rounded-md">Admin Dashboard</a>
+                    <a href="<?= base_url('admin/profile') ?>" class="block px-3 py-2 text-white hover:bg-indigo-600 rounded-md">Profile</a>
                 <?php elseif ($this->session->userdata('role') == 'instructor'): ?>
                     <a href="<?= base_url('instructor/dashboard') ?>" class="block px-3 py-2 text-white hover:bg-indigo-600 rounded-md">Instructor Dashboard</a>
+                    <a href="<?= base_url('instructor/profile') ?>" class="block px-3 py-2 text-white hover:bg-indigo-600 rounded-md">Profile</a>
                 <?php elseif ($this->session->userdata('role') == 'student'): ?>
                     <a href="<?= base_url('student/dashboard') ?>" class="block px-3 py-2 text-white hover:bg-indigo-600 rounded-md">My Dashboard</a>
                     <a href="<?= base_url('student/my_courses') ?>" class="block px-3 py-2 text-white hover:bg-indigo-600 rounded-md">My Courses</a>

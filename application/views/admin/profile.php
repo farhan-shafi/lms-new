@@ -1,5 +1,5 @@
 <!-- Profile Header -->
-<div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg p-8 mb-8">
+<div class="bg-gradient-to-r from-red-600 to-pink-600 text-white rounded-lg p-8 mb-8">
     <div class="flex items-center">
         <div class="flex-shrink-0">
             <?php if (!empty($user->profile_picture)): ?>
@@ -16,8 +16,8 @@
         </div>
         <div class="ml-6">
             <h1 class="text-3xl font-bold"><?= htmlspecialchars($user->full_name) ?></h1>
-            <p class="text-blue-100 text-lg">Student</p>
-            <p class="text-blue-200 text-sm mt-1">Member since <?= date('F Y', strtotime($user->created_at)) ?></p>
+            <p class="text-red-100 text-lg">Administrator</p>
+            <p class="text-red-200 text-sm mt-1">Member since <?= date('F Y', strtotime($user->created_at)) ?></p>
         </div>
     </div>
 </div>
@@ -29,7 +29,7 @@
         <div class="bg-white shadow rounded-lg p-6 mb-6">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-900">Personal Information</h2>
-                <a href="<?= base_url('student/edit_profile') ?>" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                <a href="<?= base_url('admin/edit_profile') ?>" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
                     <svg class="inline h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                     </svg>
@@ -79,7 +79,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Role</label>
                         <div class="bg-gray-50 p-3 rounded-md">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
                                 <?= ucfirst($user->role) ?>
                             </span>
                         </div>
@@ -99,30 +99,29 @@
     <div class="space-y-6">
         <!-- Quick Stats -->
         <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Learning Stats</h3>
+            <h3 class="text-lg font-medium text-gray-900 mb-4">System Stats</h3>
             <div class="space-y-4">
                 <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Enrolled Courses</span>
-                    <span class="text-2xl font-bold text-blue-600">
+                    <span class="text-sm text-gray-600">Total Users</span>
+                    <span class="text-2xl font-bold text-red-600">
                         <?php
-                        // Get enrolled courses count - would need to be passed from controller
-                        echo isset($stats['enrolled_courses']) ? $stats['enrolled_courses'] : '0';
+                        echo isset($user_count) ? $user_count : '0';
                         ?>
                     </span>
                 </div>
                 <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Completed Lessons</span>
+                    <span class="text-sm text-gray-600">Total Courses</span>
                     <span class="text-2xl font-bold text-green-600">
                         <?php
-                        echo isset($stats['completed_lessons']) ? $stats['completed_lessons'] : '0';
+                        echo isset($course_count) ? $course_count : '0';
                         ?>
                     </span>
                 </div>
                 <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Learning Hours</span>
-                    <span class="text-2xl font-bold text-purple-600">
+                    <span class="text-sm text-gray-600">Total Categories</span>
+                    <span class="text-2xl font-bold text-blue-600">
                         <?php
-                        echo isset($stats['learning_hours']) ? $stats['learning_hours'] : '0';
+                        echo isset($category_count) ? $category_count : '0';
                         ?>
                     </span>
                 </div>
@@ -133,25 +132,25 @@
         <div class="bg-white shadow rounded-lg p-6">
             <h3 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
             <div class="space-y-3">
-                <a href="<?= base_url('student/my_courses') ?>" class="flex items-center p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
-                    <svg class="h-5 w-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="<?= base_url('admin/users') ?>" class="flex items-center p-3 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
+                    <svg class="h-5 w-5 text-red-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <span class="text-red-900">Manage Users</span>
+                </a>
+                
+                <a href="<?= base_url('admin/courses') ?>" class="flex items-center p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+                    <svg class="h-5 w-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                     </svg>
-                    <span class="text-blue-900">My Courses</span>
+                    <span class="text-green-900">Manage Courses</span>
                 </a>
                 
-                <a href="<?= base_url('home/courses') ?>" class="flex items-center p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
-                    <svg class="h-5 w-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                <a href="<?= base_url('admin/categories') ?>" class="flex items-center p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                    <svg class="h-5 w-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                     </svg>
-                    <span class="text-green-900">Browse Courses</span>
-                </a>
-                
-                <a href="<?= base_url('student/dashboard') ?>" class="flex items-center p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
-                    <svg class="h-5 w-5 text-purple-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                    </svg>
-                    <span class="text-purple-900">Dashboard</span>
+                    <span class="text-blue-900">Manage Categories</span>
                 </a>
             </div>
         </div>
@@ -167,7 +166,7 @@
                         </svg>
                         <span class="text-sm text-gray-700">Password</span>
                     </div>
-                    <a href="<?= base_url('student/edit_profile') ?>" class="text-blue-600 hover:text-blue-800 text-sm">Change</a>
+                    <a href="<?= base_url('admin/edit_profile') ?>" class="text-red-600 hover:text-red-800 text-sm">Change</a>
                 </div>
                 
                 <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -181,17 +180,5 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- Activity Feed (Optional - would need implementation) -->
-<div class="mt-8 bg-white shadow rounded-lg p-6">
-    <h3 class="text-lg font-medium text-gray-900 mb-4">Recent Activity</h3>
-    <div class="text-center py-8">
-        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v1a2 2 0 002 2h2m0-4v6m2-6h2a2 2 0 012 2v1a2 2 0 01-2 2h-2m-2-4v6m6-10V4a2 2 0 00-2-2H6a2 2 0 00-2 2v4a2 2 0 002 2h12a2 2 0 002-2z"></path>
-        </svg>
-        <h4 class="mt-2 text-sm font-medium text-gray-900">No recent activity</h4>
-        <p class="mt-1 text-sm text-gray-500">Start learning to see your activity here!</p>
     </div>
 </div> 

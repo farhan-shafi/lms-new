@@ -101,6 +101,19 @@ class Auth extends CI_Controller {
             $user_id = $this->user_model->register($data);
             
             if ($user_id) {
+                // Upload profile picture if provided
+                if (!empty($_FILES['profile_picture']['name'])) {
+                    // Create user_id session temporarily for the upload method
+                    $this->session->set_userdata('temp_user_id', $user_id);
+                    $uploaded = $this->user_model->upload_profile_picture($user_id);
+                    $this->session->unset_userdata('temp_user_id');
+                    
+                    if (!$uploaded) {
+                        // Picture upload failed, but registration succeeded
+                        $this->session->set_flashdata('warning', 'Registration successful, but profile picture could not be uploaded.');
+                    }
+                }
+                
                 // Registration successful
                 $this->session->set_flashdata('success', 'Registration successful. You can now login.');
                 redirect('auth/login');

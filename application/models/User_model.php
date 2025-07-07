@@ -83,4 +83,40 @@ class User_model extends CI_Model {
         
         return $this->db->affected_rows() > 0;
     }
+    
+    // Upload profile picture
+    public function upload_profile_picture($user_id) {
+        // Load upload library
+        $this->load->library('upload');
+        
+        // Create upload directory if it doesn't exist
+        $upload_path = './uploads/profile_pictures/';
+        if (!is_dir($upload_path)) {
+            mkdir($upload_path, 0777, TRUE);
+        }
+        
+        // Set upload configuration
+        $config = array(
+            'upload_path' => $upload_path,
+            'allowed_types' => 'gif|jpg|jpeg|png',
+            'max_size' => 2048, // 2MB
+            'encrypt_name' => TRUE
+        );
+        
+        $this->upload->initialize($config);
+        
+        // Perform upload
+        if ($this->upload->do_upload('profile_picture')) {
+            $upload_data = $this->upload->data();
+            $profile_picture = $upload_data['file_name'];
+            
+            // Update user record with new profile picture
+            $this->db->where('id', $user_id);
+            $this->db->update('users', array('profile_picture' => $profile_picture));
+            
+            return $profile_picture;
+        }
+        
+        return FALSE;
+    }
 } 

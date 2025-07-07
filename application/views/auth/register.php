@@ -6,7 +6,7 @@
             
             <?php echo validation_errors('<div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">', '</div>'); ?>
             
-            <?php echo form_open('auth/register'); ?>
+            <?php echo form_open_multipart('auth/register'); ?>
                 <div class="mb-4">
                     <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
                     <input type="text" name="username" id="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Choose a username" value="<?= set_value('username') ?>" required>
@@ -31,6 +31,12 @@
                 <div class="mb-6">
                     <label for="confirm_password" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
                     <input type="password" name="confirm_password" id="confirm_password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Confirm your password" required>
+                </div>
+                
+                <div class="mb-6">
+                    <label for="profile_picture" class="block text-gray-700 text-sm font-bold mb-2">Profile Picture (Optional)</label>
+                    <input type="file" name="profile_picture" id="profile_picture" class="w-full" accept="image/*">
+                    <p class="text-gray-600 text-xs mt-1">Upload a profile picture (JPG, PNG, GIF, max 2MB)</p>
                 </div>
                 
                 <div class="flex items-center justify-between">
