@@ -45,12 +45,20 @@
                             <p><strong>Created:</strong> <?= date('M j, Y', strtotime($course->created_at)) ?></p>
                         </div>
                         
-                        <div class="flex space-x-2">
+                        <div class="flex space-x-2 mb-2">
                             <a href="<?= base_url('instructor/lessons/' . $course->id) ?>" class="flex-1 bg-blue-600 text-white text-center py-2 px-3 rounded text-sm hover:bg-blue-700">
                                 Manage Lessons
                             </a>
+                            <a href="<?= base_url('instructor/course_analytics/' . $course->id) ?>" class="flex-1 bg-green-600 text-white text-center py-2 px-3 rounded text-sm hover:bg-green-700">
+                                Analytics
+                            </a>
+                        </div>
+                        <div class="flex space-x-2">
                             <a href="<?= base_url('instructor/edit_course/' . $course->id) ?>" class="flex-1 bg-gray-600 text-white text-center py-2 px-3 rounded text-sm hover:bg-gray-700">
                                 Edit
+                            </a>
+                            <a href="<?= base_url('home/course/' . $course->id) ?>" class="flex-1 bg-indigo-600 text-white text-center py-2 px-3 rounded text-sm hover:bg-indigo-700">
+                                View
                             </a>
                             <a href="<?= base_url('instructor/delete_course/' . $course->id) ?>" 
                                class="bg-red-600 text-white py-2 px-3 rounded text-sm hover:bg-red-700"

@@ -10,6 +10,61 @@
     
     <!-- Dashboard Content -->
     <div class="container mx-auto px-4 py-8">
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Total Courses -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-blue-100 text-blue-500">
+                        <i class="fas fa-book-open text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-500 uppercase font-semibold">Total Courses</p>
+                        <p class="text-2xl font-bold"><?= $stats['total_courses'] ?></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Enrollments -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-green-100 text-green-500">
+                        <i class="fas fa-users text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-500 uppercase font-semibold">Total Enrollments</p>
+                        <p class="text-2xl font-bold"><?= $stats['total_enrollments'] ?></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Lessons -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-yellow-100 text-yellow-500">
+                        <i class="fas fa-list-alt text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-500 uppercase font-semibold">Total Lessons</p>
+                        <p class="text-2xl font-bold"><?= $stats['total_lessons'] ?></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Enrollments -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-purple-100 text-purple-500">
+                        <i class="fas fa-user-plus text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-500 uppercase font-semibold">Recent Enrollments</p>
+                        <p class="text-2xl font-bold"><?= $stats['recent_enrollments'] ?> <span class="text-sm font-normal text-gray-500">(30 days)</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- Quick Actions -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-8">
             <h2 class="text-xl font-bold mb-4">Quick Actions</h2>
@@ -62,6 +117,7 @@
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Enrollments</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lessons</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
@@ -94,12 +150,24 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <?php 
+                                        // Count enrollments
+                                        $this->db->where('course_id', $course->id);
+                                        $enrollment_count = $this->db->count_all_results('enrollments');
+                                        ?>
+                                        <span class="font-medium"><?= $enrollment_count ?></span>
+                                        <a href="<?= base_url('instructor/course_analytics/' . $course->id) ?>" class="ml-2 text-xs text-blue-600 hover:text-blue-800">
+                                            View Details
+                                        </a>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         <a href="<?= base_url('instructor/lessons/' . $course->id) ?>" class="text-indigo-600 hover:text-indigo-900">
                                             Manage Lessons
                                         </a>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <a href="<?= base_url('home/course/' . $course->id) ?>" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                        <a href="<?= base_url('instructor/course_analytics/' . $course->id) ?>" class="text-green-600 hover:text-green-900 mr-3">Analytics</a>
                                         <a href="<?= base_url('instructor/edit_course/' . $course->id) ?>" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
                                         <a href="<?= base_url('instructor/delete_course/' . $course->id) ?>" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this course?')">Delete</a>
                                     </td>

@@ -104,7 +104,7 @@
 
         <!-- Lessons Summary -->
         <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
                 <div>
                     <div class="text-2xl font-bold text-indigo-600"><?= count($lessons) ?></div>
                     <div class="text-sm text-gray-600">Total Lessons</div>
@@ -121,8 +121,81 @@
                     </div>
                     <div class="text-sm text-gray-600">With Content</div>
                 </div>
+                <?php
+                // Get enrollment count
+                $this->db->where('course_id', $course->id);
+                $enrollment_count = $this->db->count_all_results('enrollments');
+                ?>
+                <div>
+                    <div class="text-2xl font-bold text-purple-600"><?= $enrollment_count ?></div>
+                    <div class="text-sm text-gray-600">Enrolled Students</div>
+                </div>
             </div>
         </div>
+        
+        <!-- Lesson Completion Stats -->
+        <?php if ($enrollment_count > 0): ?>
+        <div class="mt-6 p-6 bg-white border border-gray-200 rounded-lg shadow">
+            <h3 class="text-lg font-semibold mb-4">Lesson Completion Statistics</h3>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lesson</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Completion Rate</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Completed By</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <?php foreach ($lessons as $lesson): 
+                            // Get completion count
+                            $this->db->select('COUNT(*) as completion_count');
+                            $this->db->from('lesson_progress');
+                            $this->db->join('enrollments', 'enrollments.user_id = lesson_progress.user_id');
+                            $this->db->where('lesson_progress.lesson_id', $lesson->id);
+                            $this->db->where('enrollments.course_id', $course->id);
+                            $this->db->where('lesson_progress.completed', 1);
+                            $completion_count = $this->db->get()->row()->completion_count;
+                            
+                            $completion_rate = $enrollment_count > 0 ? round(($completion_count / $enrollment_count) * 100) : 0;
+                        ?>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full mr-3">
+                                            <?= $lesson->sort_order ?>
+                                        </span>
+                                        <span class="font-medium text-gray-900"><?= htmlspecialchars($lesson->title) ?></span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="w-48 bg-gray-200 rounded-full h-2.5 mr-2">
+                                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: <?= $completion_rate ?>%"></div>
+                                        </div>
+                                        <span class="text-sm font-medium text-gray-900"><?= $completion_rate ?>%</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <?= $completion_count ?> of <?= $enrollment_count ?> students
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-4 text-right">
+                <a href="<?= base_url('instructor/course_analytics/' . $course->id) ?>" class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800">
+                    View detailed analytics
+                    <svg class="ml-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <?php endif; ?>
     <?php endif; ?>
 </div>
 

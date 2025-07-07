@@ -178,4 +178,52 @@ class Lesson_model extends CI_Model {
         
         return $progress_data;
     }
+
+    // Get lesson completion date
+    public function get_lesson_completion_date($user_id, $lesson_id) {
+        $this->db->select('completed_at');
+        $this->db->where('user_id', $user_id);
+        $this->db->where('lesson_id', $lesson_id);
+        $this->db->where('completed', 1);
+        $result = $this->db->get('lesson_progress')->row();
+        
+        return $result ? $result->completed_at : null;
+    }
+
+    // Toggle lesson completion status
+    public function toggle_lesson_completion($user_id, $lesson_id) {
+        if ($this->is_lesson_completed($user_id, $lesson_id)) {
+            return $this->mark_lesson_incomplete($user_id, $lesson_id);
+        } else {
+            return $this->mark_lesson_complete($user_id, $lesson_id);
+        }
+    }
+
+    // Mark lesson as complete
+    public function mark_lesson_complete($user_id, $lesson_id) {
+        $data = array(
+            'user_id' => $user_id,
+            'lesson_id' => $lesson_id,
+            'completed' => 1,
+            'completed_at' => date('Y-m-d H:i:s'),
+            'last_accessed' => date('Y-m-d H:i:s')
+        );
+        
+        // Check if record exists
+        $this->db->where('user_id', $user_id);
+        $this->db->where('lesson_id', $lesson_id);
+        $query = $this->db->get('lesson_progress');
+        
+        if ($query->num_rows() > 0) {
+            // Update existing record
+            $this->db->where('user_id', $user_id);
+            $this->db->where('lesson_id', $lesson_id);
+            $this->db->update('lesson_progress', $data);
+        } else {
+            // Insert new record
+            $this->db->insert('lesson_progress', $data);
+        }
+        
+        return $this->db->affected_rows() > 0;
+    }
 } 
