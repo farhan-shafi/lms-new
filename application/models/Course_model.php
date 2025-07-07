@@ -263,4 +263,40 @@ class Course_model extends CI_Model {
             'recent_enrollments' => $recent_enrollments
         );
     }
+    
+    // Upload course thumbnail
+    public function upload_thumbnail($course_id) {
+        // Load upload library
+        $this->load->library('upload');
+        
+        // Create upload directory if it doesn't exist
+        $upload_path = './uploads/thumbnails/';
+        if (!is_dir($upload_path)) {
+            mkdir($upload_path, 0777, TRUE);
+        }
+        
+        // Set upload configuration
+        $config = array(
+            'upload_path' => $upload_path,
+            'allowed_types' => 'gif|jpg|jpeg|png',
+            'max_size' => 2048, // 2MB
+            'encrypt_name' => TRUE
+        );
+        
+        $this->upload->initialize($config);
+        
+        // Perform upload
+        if ($this->upload->do_upload('thumbnail')) {
+            $upload_data = $this->upload->data();
+            $thumbnail = $upload_data['file_name'];
+            
+            // Update course record with new thumbnail
+            $this->db->where('id', $course_id);
+            $this->db->update('courses', array('thumbnail' => $thumbnail));
+            
+            return $thumbnail;
+        }
+        
+        return FALSE;
+    }
 } 

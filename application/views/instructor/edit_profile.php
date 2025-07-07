@@ -5,7 +5,7 @@
             <h1 class="text-3xl font-bold text-gray-900">Edit Profile</h1>
             <p class="text-gray-600 mt-2">Update your personal information and account settings.</p>
         </div>
-        <a href="<?= base_url('student/profile') ?>" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 transition-colors">
+        <a href="<?= base_url('instructor/profile') ?>" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 transition-colors">
             <svg class="inline h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
@@ -16,7 +16,7 @@
 
 <!-- Edit Form -->
 <div class="bg-white shadow rounded-lg p-6">
-    <?= form_open_multipart('student/edit_profile', ['class' => 'space-y-6']) ?>
+    <?= form_open_multipart('instructor/edit_profile', ['class' => 'space-y-6']) ?>
         
         <!-- Personal Information Section -->
         <div>
@@ -29,7 +29,7 @@
                        id="full_name" 
                        name="full_name" 
                        value="<?= set_value('full_name', $user->full_name) ?>"
-                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                        placeholder="Enter your full name"
                        required>
                 <?= form_error('full_name', '<div class="text-red-600 text-sm mt-1">', '</div>') ?>
@@ -42,7 +42,7 @@
                        id="email" 
                        name="email" 
                        value="<?= set_value('email', $user->email) ?>"
-                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                        placeholder="Enter your email address"
                        required>
                 <?= form_error('email', '<div class="text-red-600 text-sm mt-1">', '</div>') ?>
@@ -54,9 +54,9 @@
                 <textarea id="bio" 
                           name="bio" 
                           rows="4"
-                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                           placeholder="Tell us about yourself..."><?= set_value('bio', $user->bio) ?></textarea>
-                <p class="text-sm text-gray-500 mt-1">Optional: Share a brief description about yourself and your learning goals.</p>
+                <p class="text-sm text-gray-500 mt-1">Optional: Share a brief description about yourself and your teaching experience.</p>
                 <?= form_error('bio', '<div class="text-red-600 text-sm mt-1">', '</div>') ?>
             </div>
             
@@ -102,7 +102,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Account Type</label>
                     <div class="bg-gray-50 p-3 rounded-md border">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                             <?= ucfirst($user->role) ?>
                         </span>
                     </div>
@@ -122,7 +122,7 @@
                     <input type="password" 
                            id="password" 
                            name="password" 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                            placeholder="Enter new password">
                     <p class="text-xs text-gray-500 mt-1">Minimum 6 characters</p>
                     <?= form_error('password', '<div class="text-red-600 text-sm mt-1">', '</div>') ?>
@@ -134,7 +134,7 @@
                     <input type="password" 
                            id="confirm_password" 
                            name="confirm_password" 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                            placeholder="Confirm new password">
                     <?= form_error('confirm_password', '<div class="text-red-600 text-sm mt-1">', '</div>') ?>
                 </div>
@@ -143,12 +143,12 @@
 
         <!-- Form Actions -->
         <div class="flex justify-between pt-6 border-t border-gray-200">
-            <a href="<?= base_url('student/profile') ?>" 
+            <a href="<?= base_url('instructor/profile') ?>" 
                class="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 transition-colors">
                 Cancel
             </a>
             <button type="submit" 
-                    class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                    class="bg-purple-600 text-white px-6 py-2 rounded-md hover:bg-purple-700 transition-colors">
                 <svg class="inline h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
@@ -157,25 +157,6 @@
         </div>
 
     <?= form_close() ?>
-</div>
-
-<!-- Account Information -->
-<div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-6">
-    <div class="flex">
-        <svg class="h-5 w-5 text-blue-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-        <div class="ml-3">
-            <h3 class="text-sm font-medium text-blue-800">Account Information</h3>
-            <div class="mt-2 text-sm text-blue-700">
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Account Created:</strong> <?= date('F j, Y', strtotime($user->created_at)) ?></li>
-                    <li><strong>Last Updated:</strong> <?= date('F j, Y g:i A', strtotime($user->updated_at)) ?></li>
-                    <li><strong>User ID:</strong> <?= $user->id ?></li>
-                </ul>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- Security Tips -->

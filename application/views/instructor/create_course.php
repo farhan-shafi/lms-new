@@ -5,7 +5,7 @@
         <p class="text-gray-600 mt-2">Fill out the form below to create a new course.</p>
     </div>
 
-    <?= form_open('instructor/create_course', ['class' => 'space-y-6']) ?>
+    <?= form_open_multipart('instructor/create_course', ['class' => 'space-y-6']) ?>
         
         <!-- Course Title -->
         <div>
@@ -59,6 +59,18 @@
                 <option value="published" <?= set_select('status', 'published') ?>>Published</option>
             </select>
             <?= form_error('status', '<div class="text-red-600 text-sm mt-1">', '</div>') ?>
+        </div>
+        
+        <!-- Course Thumbnail -->
+        <div>
+            <label for="thumbnail" class="block text-sm font-medium text-gray-700 mb-2">Course Thumbnail</label>
+            <input type="file" 
+                   id="thumbnail" 
+                   name="thumbnail" 
+                   class="w-full"
+                   accept="image/*">
+            <p class="text-sm text-gray-500 mt-1">Upload a thumbnail image for your course (JPG, PNG, GIF, max 2MB)</p>
+            <p class="text-sm text-gray-500 mt-1">Recommended size: 1280x720 pixels (16:9 ratio)</p>
         </div>
 
         <!-- Form Actions -->

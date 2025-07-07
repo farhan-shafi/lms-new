@@ -198,7 +198,8 @@ class Student extends CI_Controller {
             $update_data = array(
                 'full_name' => $this->input->post('full_name'),
                 'email' => $this->input->post('email'),
-                'bio' => $this->input->post('bio')
+                'bio' => $this->input->post('bio'),
+                'updated_at' => date('Y-m-d H:i:s')
             );
             
             // If password is provided, update it
@@ -208,8 +209,22 @@ class Student extends CI_Controller {
             
             // Update user
             $updated = $this->user_model->update_user($student_id, $update_data);
+            $profile_updated = true;
             
-            if ($updated) {
+            // Upload profile picture if provided
+            if (!empty($_FILES['profile_picture']['name'])) {
+                // Load upload library
+                $this->load->library('upload');
+                
+                $uploaded = $this->user_model->upload_profile_picture($student_id);
+                
+                if (!$uploaded) {
+                    $this->session->set_flashdata('warning', 'Profile updated, but profile picture could not be uploaded: ' . $this->upload->display_errors('', ''));
+                    $profile_updated = false;
+                }
+            }
+            
+            if ($updated || $profile_updated) {
                 // Update session data
                 $this->session->set_userdata('full_name', $update_data['full_name']);
                 $this->session->set_userdata('email', $update_data['email']);
@@ -217,7 +232,7 @@ class Student extends CI_Controller {
                 $this->session->set_flashdata('success', 'Profile updated successfully');
                 redirect('student/profile');
             } else {
-                $this->session->set_flashdata('error', 'Failed to update profile');
+                $this->session->set_flashdata('error', 'Failed to update profile. No changes were made.');
                 redirect('student/edit_profile');
             }
         }

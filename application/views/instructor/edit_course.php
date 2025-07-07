@@ -5,7 +5,7 @@
         <p class="text-gray-600 mt-2">Update the course information below.</p>
     </div>
 
-    <?= form_open('instructor/edit_course/' . $course->id, ['class' => 'space-y-6']) ?>
+    <?= form_open_multipart('instructor/edit_course/' . $course->id, ['class' => 'space-y-6']) ?>
         
         <!-- Course Title -->
         <div>
@@ -59,6 +59,30 @@
                 <option value="published" <?= set_select('status', 'published', ($course->status == 'published')) ?>>Published</option>
             </select>
             <?= form_error('status', '<div class="text-red-600 text-sm mt-1">', '</div>') ?>
+        </div>
+        
+        <!-- Course Thumbnail -->
+        <div>
+            <label for="thumbnail" class="block text-sm font-medium text-gray-700 mb-2">Course Thumbnail</label>
+            <div class="flex items-start space-x-4">
+                <?php if (!empty($course->thumbnail)): ?>
+                    <div class="flex-shrink-0">
+                        <img src="<?= base_url('uploads/thumbnails/' . $course->thumbnail) ?>" alt="Current thumbnail" class="h-32 w-56 object-cover rounded">
+                    </div>
+                <?php endif; ?>
+                <div class="flex-grow">
+                    <input type="file" 
+                           id="thumbnail" 
+                           name="thumbnail" 
+                           class="w-full"
+                           accept="image/*">
+                    <p class="text-sm text-gray-500 mt-1">Upload a new thumbnail image (JPG, PNG, GIF, max 2MB)</p>
+                    <p class="text-sm text-gray-500 mt-1">Recommended size: 1280x720 pixels (16:9 ratio)</p>
+                    <?php if (!empty($course->thumbnail)): ?>
+                        <p class="text-sm text-gray-500 mt-1">Leave empty to keep current thumbnail</p>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
 
         <!-- Course Information -->

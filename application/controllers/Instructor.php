@@ -79,6 +79,15 @@ class Instructor extends CI_Controller {
             $course_id = $this->course_model->create_course($data);
             
             if ($course_id) {
+                // Upload thumbnail if provided
+                if (!empty($_FILES['thumbnail']['name'])) {
+                    $uploaded = $this->course_model->upload_thumbnail($course_id);
+                    
+                    if (!$uploaded) {
+                        $this->session->set_flashdata('warning', 'Course created successfully, but thumbnail could not be uploaded.');
+                    }
+                }
+                
                 $this->session->set_flashdata('success', 'Course created successfully');
                 redirect('instructor/courses');
             } else {
@@ -126,6 +135,15 @@ class Instructor extends CI_Controller {
             
             // Update course
             $updated = $this->course_model->update_course($course_id, $update_data);
+            
+            // Upload thumbnail if provided
+            if (!empty($_FILES['thumbnail']['name'])) {
+                $uploaded = $this->course_model->upload_thumbnail($course_id);
+                
+                if (!$uploaded) {
+                    $this->session->set_flashdata('warning', 'Course updated successfully, but thumbnail could not be uploaded.');
+                }
+            }
             
             if ($updated) {
                 $this->session->set_flashdata('success', 'Course updated successfully');
@@ -373,6 +391,81 @@ class Instructor extends CI_Controller {
             $this->load->view('templates/header', $data);
             $this->load->view('instructor/student_progress', $data);
             $this->load->view('templates/footer');
+        }
+    }
+
+    // Profile Management
+    public function profile() {
+        $instructor_id = $this->session->userdata('user_id');
+        $data['user'] = $this->user_model->get_user($instructor_id);
+        $data['title'] = 'My Profile';
+        
+        // Get instructor statistics
+        $data['stats'] = $this->course_model->get_instructor_stats($instructor_id);
+        
+        // Load views
+        $this->load->view('templates/header', $data);
+        $this->load->view('instructor/profile', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function edit_profile() {
+        $instructor_id = $this->session->userdata('user_id');
+        $data['user'] = $this->user_model->get_user($instructor_id);
+        
+        // Form validation rules
+        $this->form_validation->set_rules('full_name', 'Full Name', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+        
+        if ($this->form_validation->run() === FALSE) {
+            $data['title'] = 'Edit Profile';
+            
+            // Load views
+            $this->load->view('templates/header', $data);
+            $this->load->view('instructor/edit_profile', $data);
+            $this->load->view('templates/footer');
+        } else {
+            // Get form data
+            $update_data = array(
+                'full_name' => $this->input->post('full_name'),
+                'email' => $this->input->post('email'),
+                'bio' => $this->input->post('bio'),
+                'updated_at' => date('Y-m-d H:i:s')
+            );
+            
+            // If password is provided, update it
+            if ($this->input->post('password') && $this->input->post('password') != '') {
+                $update_data['password'] = $this->input->post('password');
+            }
+            
+            // Update user
+            $updated = $this->user_model->update_user($instructor_id, $update_data);
+            $profile_updated = true;
+            
+            // Upload profile picture if provided
+            if (!empty($_FILES['profile_picture']['name'])) {
+                // Load upload library
+                $this->load->library('upload');
+                
+                $uploaded = $this->user_model->upload_profile_picture($instructor_id);
+                
+                if (!$uploaded) {
+                    $this->session->set_flashdata('warning', 'Profile updated, but profile picture could not be uploaded: ' . $this->upload->display_errors('', ''));
+                    $profile_updated = false;
+                }
+            }
+            
+            if ($updated || $profile_updated) {
+                // Update session data
+                $this->session->set_userdata('full_name', $update_data['full_name']);
+                $this->session->set_userdata('email', $update_data['email']);
+                
+                $this->session->set_flashdata('success', 'Profile updated successfully');
+                redirect('instructor/profile');
+            } else {
+                $this->session->set_flashdata('error', 'Failed to update profile. No changes were made.');
+                redirect('instructor/edit_profile');
+            }
         }
     }
 } 
