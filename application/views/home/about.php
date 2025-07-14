@@ -13,7 +13,7 @@
     <div class="container mx-auto px-4">
         <div class="flex flex-col md:flex-row items-center gap-12">
             <div class="md:w-1/2">
-                <img src="https://source.unsplash.com/random/600x400/?education,team" alt="Our Story" class="rounded-lg shadow-lg">
+                <img src="<?= base_url('uploads/images/about-team.jpg') ?>" alt="Our Story" class="rounded-lg shadow-lg">
             </div>
             <div class="md:w-1/2">
                 <h2 class="text-3xl font-bold mb-6 text-gray-800">Our Story</h2>

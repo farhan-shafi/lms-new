@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="md:w-1/2 flex justify-center">
-                <img src="https://source.unsplash.com/random/600x500/?education,learning" alt="Education" class="rounded-lg shadow-2xl transform rotate-2 hover:rotate-0 transition duration-500">
+                <img src="<?= base_url('uploads/images/hero-education.jpg') ?>" alt="Education" class="rounded-lg">
             </div>
         </div>
     </div>
