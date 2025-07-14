@@ -62,7 +62,7 @@
                                             <span class="text-gray-500 text-sm">Lesson <?= $index + 1 ?></span>
                                             <h3 class="font-medium"><?= $lesson->title ?></h3>
                                         </div>
-                                        <a href="<?= base_url('home/lesson/' . $course->id . '/' . $lesson->id) ?>" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm py-1 px-3 rounded">
+                                        <a href="<?= base_url('home/lesson/' . $course->id . '/' . $lesson->id) ?>" class="bg-indigo-50 text-indigo-700 text-sm py-1 px-3 rounded-lg shadow-sm hover:shadow hover:bg-indigo-100 transition-all transform hover:scale-102">
                                             View Lesson
                                         </a>
                                     </div>
@@ -100,26 +100,26 @@
                             You are enrolled in this course.
                         </div>
                         <?php if (!empty($lessons)): ?>
-                            <a href="<?= base_url('home/lesson/' . $course->id . '/' . $lessons[0]->id) ?>" class="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded w-full">
+                            <a href="<?= base_url('home/lesson/' . $course->id . '/' . $lessons[0]->id) ?>" class="block text-center bg-indigo-50 text-indigo-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-indigo-100 transition-all transform hover:scale-102 w-full">
                                 Continue Learning
                             </a>
                         <?php else: ?>
-                            <div class="block text-center bg-gray-400 text-white font-medium py-2 px-4 rounded w-full">
+                            <div class="block text-center bg-gray-100 text-gray-500 font-medium py-2 px-4 rounded-lg w-full">
                                 No lessons available
                             </div>
                         <?php endif; ?>
                     <?php elseif ($this->session->userdata('role') == 'student'): ?>
-                        <a href="<?= base_url('home/enroll/' . $course->id) ?>" class="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded w-full">
+                        <a href="<?= base_url('home/enroll/' . $course->id) ?>" class="block text-center bg-indigo-50 text-indigo-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-indigo-100 transition-all transform hover:scale-102 w-full">
                             Enroll Now
                         </a>
                     <?php endif; ?>
                     
                     <?php if ($this->session->userdata('role') == 'admin' || $this->session->userdata('user_id') == $course->instructor_id): ?>
                         <div class="mt-4">
-                            <a href="<?= base_url(($this->session->userdata('role') == 'admin' ? 'admin' : 'instructor') . '/edit_course/' . $course->id) ?>" class="block text-center bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-4 rounded w-full mb-2">
+                            <a href="<?= base_url(($this->session->userdata('role') == 'admin' ? 'admin' : 'instructor') . '/edit_course/' . $course->id) ?>" class="block text-center bg-yellow-50 text-yellow-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-yellow-100 transition-all transform hover:scale-102 w-full mb-2">
                                 Edit Course
                             </a>
-                            <a href="<?= base_url(($this->session->userdata('role') == 'admin' ? 'admin' : 'instructor') . '/lessons/' . $course->id) ?>" class="block text-center bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded w-full">
+                            <a href="<?= base_url(($this->session->userdata('role') == 'admin' ? 'admin' : 'instructor') . '/lessons/' . $course->id) ?>" class="block text-center bg-blue-50 text-blue-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-blue-100 transition-all transform hover:scale-102 w-full">
                                 Manage Lessons
                             </a>
                         </div>
@@ -128,7 +128,7 @@
                     <div class="bg-yellow-100 text-yellow-800 p-3 rounded-md mb-4">
                         Please login to enroll in this course.
                     </div>
-                    <a href="<?= base_url('auth/login') ?>" class="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded w-full">
+                    <a href="<?= base_url('auth/login') ?>" class="block text-center bg-indigo-50 text-indigo-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-indigo-100 transition-all transform hover:scale-102 w-full">
                         Login to Enroll
                     </a>
                 <?php endif; ?>

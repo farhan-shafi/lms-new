@@ -76,11 +76,11 @@
         <!-- Form Actions -->
         <div class="flex justify-between pt-6 border-t border-gray-200">
             <a href="<?= base_url('instructor/courses') ?>" 
-               class="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 transition-colors">
+               class="bg-gray-50 text-gray-700 px-6 py-2 rounded-lg shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102">
                 Cancel
             </a>
             <button type="submit" 
-                    class="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 transition-colors">
+                    class="bg-indigo-50 text-indigo-700 px-6 py-2 rounded-lg shadow-sm hover:shadow hover:bg-indigo-100 transition-all transform hover:scale-102">
                 <svg class="inline h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>

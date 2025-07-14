@@ -77,23 +77,38 @@
         <div class="bg-white rounded-lg shadow p-6">
             <h3 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
             <div class="space-y-3">
-                <a href="<?= base_url('home/courses') ?>" class="flex items-center p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
-                    <svg class="h-5 w-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                <a href="<?= base_url('home/courses') ?>" class="flex items-center justify-between p-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-all transform hover:scale-102 shadow-sm hover:shadow">
+                    <div class="flex items-center">
+                        <svg class="h-5 w-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <span class="text-blue-900">Browse All Courses</span>
+                    </div>
+                    <svg class="h-4 w-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
-                    <span class="text-blue-900">Browse All Courses</span>
                 </a>
-                <a href="<?= base_url('student/my_courses') ?>" class="flex items-center p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
-                    <svg class="h-5 w-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                <a href="<?= base_url('student/my_courses') ?>" class="flex items-center justify-between p-3 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-all transform hover:scale-102 shadow-sm hover:shadow">
+                    <div class="flex items-center">
+                        <svg class="h-5 w-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        <span class="text-green-900">My Enrolled Courses</span>
+                    </div>
+                    <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
-                    <span class="text-green-900">My Enrolled Courses</span>
                 </a>
-                <a href="<?= base_url('student/profile') ?>" class="flex items-center p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
-                    <svg class="h-5 w-5 text-purple-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                <a href="<?= base_url('student/profile') ?>" class="flex items-center justify-between p-3 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-all transform hover:scale-102 shadow-sm hover:shadow">
+                    <div class="flex items-center">
+                        <svg class="h-5 w-5 text-purple-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                        <span class="text-purple-900">Update Profile</span>
+                    </div>
+                    <svg class="h-4 w-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
-                    <span class="text-purple-900">Update Profile</span>
                 </a>
             </div>
         </div>
@@ -114,11 +129,12 @@
                         </div>
                     <?php endforeach; ?>
                     <?php if (count($courses) > 3): ?>
-                        <a href="<?= base_url('student/my_courses') ?>" class="text-sm text-blue-600 hover:text-blue-800">View all courses →</a>
+                        <a href="<?= base_url('student/my_courses') ?>" class="inline-block mt-2 px-4 py-2 bg-indigo-100 text-indigo-700 text-sm rounded-lg shadow-sm hover:shadow hover:bg-indigo-200 transition-all">View all courses</a>
                     <?php endif; ?>
                 </div>
             <?php else: ?>
-                <p class="text-gray-500 text-sm">No enrolled courses yet. Start by browsing our course catalog!</p>
+                <p class="text-gray-500 text-sm mb-4">No enrolled courses yet. Start by browsing our course catalog!</p>
+                <a href="<?= base_url('home/courses') ?>" class="inline-block px-4 py-2 bg-indigo-100 text-indigo-700 text-sm rounded-lg shadow-sm hover:shadow hover:bg-indigo-200 transition-all">Browse Courses</a>
             <?php endif; ?>
         </div>
     </div>
@@ -129,15 +145,15 @@
             <h2 class="text-xl font-bold text-gray-800 flex items-center">
                 <i class="fas fa-graduation-cap text-indigo-600 mr-2"></i>Continue Learning
             </h2>
-            <a href="<?= base_url('student/my_courses') ?>" class="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white text-sm py-2.5 px-4 rounded-lg shadow-sm hover:shadow transition-all flex items-center">
+            <a href="<?= base_url('student/my_courses') ?>" class="bg-indigo-100 text-indigo-700 text-sm py-2.5 px-4 rounded-lg shadow-sm hover:shadow hover:bg-indigo-200 transition-all flex items-center">
                 View All
             </a>
         </div>
         
         <?php if (empty($courses)): ?>
             <div class="text-center py-8">
-                <p class="text-gray-600">You haven't enrolled in any courses yet.</p>
-                <a href="<?= base_url('home/courses') ?>" class="inline-block mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded">
+                <p class="text-gray-600 mb-4">You haven't enrolled in any courses yet.</p>
+                <a href="<?= base_url('home/courses') ?>" class="inline-block px-5 py-2.5 bg-indigo-100 text-indigo-700 font-medium rounded-lg shadow-sm hover:shadow hover:bg-indigo-200 transition-all">
                     Browse Available Courses
                 </a>
             </div>
@@ -201,14 +217,14 @@
                             <!-- Course Actions -->
                             <div class="border-t border-gray-200 pt-4">
                                 <div class="grid grid-cols-2 gap-2">
-                                    <a href="<?= base_url('student/course/' . $course->id) ?>" class="inline-flex items-center justify-center px-3 py-2 bg-blue-50 text-blue-700 text-xs font-medium rounded-lg border border-blue-200 hover:bg-blue-100">
+                                    <a href="<?= base_url('student/course/' . $course->id) ?>" class="inline-flex items-center justify-center px-3 py-2 bg-blue-50 text-blue-700 text-xs font-medium rounded-lg border border-blue-200 hover:bg-blue-100 transition-all">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                         Continue Learning
                                     </a>
-                                    <a href="<?= base_url('student/quizzes/' . $course->id) ?>" class="inline-flex items-center justify-center px-3 py-2 bg-purple-50 text-purple-700 text-xs font-medium rounded-lg border border-purple-200 hover:bg-purple-100">
+                                    <a href="<?= base_url('student/quizzes/' . $course->id) ?>" class="inline-flex items-center justify-center px-3 py-2 bg-purple-50 text-purple-700 text-xs font-medium rounded-lg border border-purple-200 hover:bg-purple-100 transition-all">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>

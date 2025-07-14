@@ -5,7 +5,7 @@
             <h1 class="text-3xl font-bold text-gray-900">Edit Profile</h1>
             <p class="text-gray-600 mt-2">Update your personal information and account settings.</p>
         </div>
-        <a href="<?= base_url('admin/profile') ?>" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 transition-colors">
+        <a href="<?= base_url('admin/profile') ?>" class="bg-gray-50 text-gray-700 px-4 py-2 rounded-lg shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102">
             <svg class="inline h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
@@ -144,11 +144,11 @@
         <!-- Form Actions -->
         <div class="flex justify-between pt-6 border-t border-gray-200">
             <a href="<?= base_url('admin/profile') ?>" 
-               class="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 transition-colors">
+               class="bg-gray-50 text-gray-700 px-6 py-2 rounded-lg shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102">
                 Cancel
             </a>
             <button type="submit" 
-                    class="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors">
+                    class="bg-red-50 text-red-700 px-6 py-2 rounded-lg shadow-sm hover:shadow hover:bg-red-100 transition-all transform hover:scale-102">
                 <svg class="inline h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>

@@ -52,12 +52,12 @@
                 <!-- Lesson Actions -->
                 <div class="flex space-x-3">
                     <a href="<?= base_url('student/course/' . $course->id) ?>" 
-                       class="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 transition-colors">
+                       class="bg-gray-50 text-gray-700 px-4 py-2 rounded-lg shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102 font-medium">
                         Back to Course
                     </a>
-                                        <button onclick="toggleLessonCompletion()" 
+                    <button onclick="toggleLessonCompletion()" 
                             id="completion-btn"
-                            class="<?= isset($is_completed) && $is_completed ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-green-600 hover:bg-green-700' ?> text-white px-4 py-2 rounded-md transition-colors">
+                            class="<?= isset($is_completed) && $is_completed ? 'bg-yellow-50 text-yellow-700' : 'bg-green-50 text-green-700' ?> px-4 py-2 rounded-lg shadow-sm hover:shadow hover:<?= isset($is_completed) && $is_completed ? 'bg-yellow-100' : 'bg-green-100' ?> transition-all transform hover:scale-102 font-medium">
                         <?= isset($is_completed) && $is_completed ? 'Mark as Incomplete' : 'Mark as Complete' ?>
                     </button>
                 </div>
@@ -159,7 +159,7 @@
                 <div class="flex-1">
                     <?php if ($prev_lesson): ?>
                         <a href="<?= base_url('student/lesson/' . $course->id . '/' . $prev_lesson->id) ?>" 
-                           class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                           class="inline-flex items-center px-4 py-2 bg-gray-50 text-gray-700 rounded-lg shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102 text-sm font-medium">
                             <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                             </svg>
@@ -177,14 +177,14 @@
                 <div class="flex-1 text-right">
                     <?php if ($next_lesson): ?>
                         <a href="<?= base_url('student/lesson/' . $course->id . '/' . $next_lesson->id) ?>" 
-                           class="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
+                           class="inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-lg shadow-sm hover:shadow hover:bg-blue-100 transition-all transform hover:scale-102 text-sm font-medium">
                             Next: <?= htmlspecialchars($next_lesson->title) ?>
                             <svg class="h-4 w-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                             </svg>
                         </a>
                     <?php else: ?>
-                        <div class="inline-flex items-center px-4 py-2 border border-green-300 rounded-md text-sm font-medium text-green-700 bg-green-50">
+                        <div class="inline-flex items-center px-4 py-2 bg-green-50 text-green-700 rounded-lg shadow-sm text-sm font-medium">
                             <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
@@ -271,15 +271,15 @@
             <h3 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
             <div class="space-y-3">
                 <a href="<?= base_url('student/course/' . $course->id) ?>" 
-                   class="w-full bg-blue-100 text-blue-700 text-center py-2 px-4 rounded-md hover:bg-blue-200 transition-colors">
+                   class="w-full bg-blue-50 text-blue-700 text-center py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-blue-100 transition-all transform hover:scale-102 font-medium">
                     Back to Course
                 </a>
                 <a href="<?= base_url('student/my_courses') ?>" 
-                   class="w-full bg-gray-100 text-gray-700 text-center py-2 px-4 rounded-md hover:bg-gray-200 transition-colors">
+                   class="w-full bg-gray-50 text-gray-700 text-center py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102 font-medium">
                     My Courses
                 </a>
                 <a href="<?= base_url('student/dashboard') ?>" 
-                   class="w-full bg-green-100 text-green-700 text-center py-2 px-4 rounded-md hover:bg-green-200 transition-colors">
+                   class="w-full bg-green-50 text-green-700 text-center py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-green-100 transition-all transform hover:scale-102 font-medium">
                     Dashboard
                 </a>
             </div>
@@ -296,7 +296,7 @@ function toggleLessonCompletion() {
     // Disable button and show loading state
     btn.disabled = true;
     btn.textContent = 'Loading...';
-    btn.className = 'bg-gray-600 text-white px-4 py-2 rounded-md transition-colors cursor-not-allowed';
+    btn.className = 'bg-gray-50 text-gray-500 px-4 py-2 rounded-lg shadow-sm transition-all cursor-not-allowed';
     
     // Make AJAX request
     fetch('<?= base_url("student/toggle_lesson_completion/" . $lesson->id) ?>', {
@@ -312,7 +312,7 @@ function toggleLessonCompletion() {
             // Update button based on new completion status
             if (data.completed) {
                 btn.textContent = 'Mark as Incomplete';
-                btn.className = 'bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md transition-colors';
+                btn.className = 'bg-yellow-50 text-yellow-700 px-4 py-2 rounded-lg shadow-sm hover:shadow hover:bg-yellow-100 transition-all transform hover:scale-102 font-medium';
                 
                 // Add completed badge to lesson header if not exists
                 const lessonHeader = document.querySelector('.text-3xl.font-bold.text-gray-900').parentElement;
@@ -324,7 +324,7 @@ function toggleLessonCompletion() {
                 }
             } else {
                 btn.textContent = 'Mark as Complete';
-                btn.className = 'bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition-colors';
+                btn.className = 'bg-green-50 text-green-700 px-4 py-2 rounded-lg shadow-sm hover:shadow hover:bg-green-100 transition-all transform hover:scale-102 font-medium';
                 
                 // Remove completed badge if exists
                 const badge = document.querySelector('.bg-green-100.text-green-800');
@@ -351,7 +351,7 @@ function toggleLessonCompletion() {
             
             // Restore button
             btn.textContent = originalText;
-            btn.className = '<?= $is_completed ? "bg-yellow-600 hover:bg-yellow-700" : "bg-green-600 hover:bg-green-700" ?> text-white px-4 py-2 rounded-md transition-colors';
+            btn.className = '<?= $is_completed ? "bg-yellow-50 text-yellow-700" : "bg-green-50 text-green-700" ?> px-4 py-2 rounded-lg shadow-sm hover:shadow hover:<?= $is_completed ? "bg-yellow-100" : "bg-green-100" ?> transition-all transform hover:scale-102 font-medium';
         }
     })
     .catch(error => {
@@ -360,7 +360,7 @@ function toggleLessonCompletion() {
         
         // Restore button
         btn.textContent = originalText;
-        btn.className = '<?= $is_completed ? "bg-yellow-600 hover:bg-yellow-700" : "bg-green-600 hover:bg-green-700" ?> text-white px-4 py-2 rounded-md transition-colors';
+        btn.className = '<?= $is_completed ? "bg-yellow-50 text-yellow-700" : "bg-green-50 text-green-700" ?> px-4 py-2 rounded-lg shadow-sm hover:shadow hover:<?= $is_completed ? "bg-yellow-100" : "bg-green-100" ?> transition-all transform hover:scale-102 font-medium';
     })
     .finally(() => {
         btn.disabled = false;

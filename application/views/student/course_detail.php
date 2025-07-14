@@ -220,7 +220,7 @@ function showNotificationCourse(message, type) {
                         <p class="text-blue-700 mt-1">Enroll in this course to access all lessons and track your progress.</p>
                     </div>
                     <a href="<?= base_url('home/enroll/' . $course->id) ?>" 
-                       class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                       class="bg-blue-50 text-blue-700 px-6 py-3 rounded-lg shadow-sm hover:shadow hover:bg-blue-100 transition-all transform hover:scale-102 font-medium">
                         Enroll Now
                     </a>
                 </div>
@@ -308,7 +308,7 @@ function showNotificationCourse(message, type) {
                                 <div class="ml-4 flex space-x-2">
                                     <?php if ($is_enrolled): ?>
                                         <a href="<?= base_url('student/lesson/' . $course->id . '/' . $lesson->id) ?>" 
-                                           class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm">
+                                           class="bg-blue-50 text-blue-700 px-4 py-2 rounded-lg shadow-sm hover:shadow hover:bg-blue-100 transition-all transform hover:scale-102 text-sm font-medium">
                                             <?php if (isset($progress['completed_lessons']) && in_array($lesson->id, $progress['completed_lessons'])): ?>
                                                 Review
                                             <?php else: ?>
@@ -319,14 +319,14 @@ function showNotificationCourse(message, type) {
                                         <!-- Quick completion toggle -->
                                         <button onclick="toggleLessonCompletionFromCourse(<?= $lesson->id ?>)" 
                                                 id="completion-btn-<?= $lesson->id ?>"
-                                                class="<?= (isset($progress['completed_lessons']) && in_array($lesson->id, $progress['completed_lessons'])) ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-400 hover:bg-gray-500' ?> text-white px-3 py-2 rounded-md text-sm transition-colors"
+                                                class="<?= (isset($progress['completed_lessons']) && in_array($lesson->id, $progress['completed_lessons'])) ? 'bg-green-50 text-green-700' : 'bg-gray-50 text-gray-700' ?> px-3 py-2 rounded-lg shadow-sm hover:shadow hover:<?= (isset($progress['completed_lessons']) && in_array($lesson->id, $progress['completed_lessons'])) ? 'bg-green-100' : 'bg-gray-100' ?> transition-all transform hover:scale-102 text-sm font-medium"
                                                 title="<?= (isset($progress['completed_lessons']) && in_array($lesson->id, $progress['completed_lessons'])) ? 'Mark as incomplete' : 'Mark as complete' ?>">
                                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                             </svg>
                                         </button>
                                     <?php else: ?>
-                                        <button class="bg-gray-300 text-gray-500 px-4 py-2 rounded-md text-sm cursor-not-allowed" disabled>
+                                        <button class="bg-gray-50 text-gray-500 px-4 py-2 rounded-lg text-sm cursor-not-allowed" disabled>
                                             Locked
                                         </button>
                                     <?php endif; ?>
@@ -380,7 +380,7 @@ function showNotificationCourse(message, type) {
                         <p class="text-blue-700 mt-1">Enroll in this course to access all lessons and track your progress.</p>
                     </div>
                     <a href="<?= base_url('home/enroll/' . $course->id) ?>" 
-                       class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                       class="bg-blue-50 text-blue-700 px-6 py-3 rounded-lg shadow-sm hover:shadow hover:bg-blue-100 transition-all transform hover:scale-102 font-medium">
                         Enroll Now
                     </a>
                 </div>
@@ -392,7 +392,7 @@ function showNotificationCourse(message, type) {
         <div class="bg-white shadow rounded-lg p-6 mb-6">
             <h3 class="text-lg font-medium text-gray-900 mb-4">Course Actions</h3>
             <div class="space-y-3">
-                <a href="<?= base_url('student/quizzes/' . $course->id) ?>" class="flex items-center justify-between p-3 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg transition-colors">
+                <a href="<?= base_url('student/quizzes/' . $course->id) ?>" class="flex items-center justify-between p-3 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg transition-all transform hover:scale-102 shadow-sm hover:shadow">
                     <div class="flex items-center">
                         <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
@@ -444,15 +444,15 @@ function showNotificationCourse(message, type) {
         <div class="bg-white shadow rounded-lg p-6">
             <h3 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
             <div class="space-y-3">
-                <a href="<?= base_url('home/courses') ?>" class="w-full bg-gray-100 text-gray-700 text-center py-2 px-4 rounded-md hover:bg-gray-200 transition-colors">
+                <a href="<?= base_url('home/courses') ?>" class="w-full bg-gray-50 text-gray-700 text-center py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102 font-medium">
                     Browse More Courses
                 </a>
                 
                 <?php if ($is_enrolled): ?>
-                    <a href="<?= base_url('student/my_courses') ?>" class="w-full bg-blue-100 text-blue-700 text-center py-2 px-4 rounded-md hover:bg-blue-200 transition-colors">
+                    <a href="<?= base_url('student/my_courses') ?>" class="w-full bg-blue-50 text-blue-700 text-center py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-blue-100 transition-all transform hover:scale-102 font-medium">
                         My Courses
                     </a>
-                    <a href="<?= base_url('student/dashboard') ?>" class="w-full bg-green-100 text-green-700 text-center py-2 px-4 rounded-md hover:bg-green-200 transition-colors">
+                    <a href="<?= base_url('student/dashboard') ?>" class="w-full bg-green-50 text-green-700 text-center py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-green-100 transition-all transform hover:scale-102 font-medium">
                         Dashboard
                     </a>
                 <?php endif; ?>

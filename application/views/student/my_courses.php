@@ -14,38 +14,38 @@
 
 <!-- Quick Actions -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-    <a href="<?= base_url('home/courses') ?>" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-colors">
+    <a href="<?= base_url('home/courses') ?>" class="bg-blue-50 text-blue-700 p-6 rounded-lg shadow-sm hover:shadow hover:bg-blue-100 transition-all transform hover:scale-102">
         <div class="flex items-center">
             <svg class="h-8 w-8 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg>
             <div>
                 <h3 class="font-semibold">Explore Courses</h3>
-                <p class="text-blue-100 text-sm">Find new courses to enroll</p>
+                <p class="text-blue-500 text-sm">Find new courses to enroll</p>
             </div>
         </div>
     </a>
 
-    <a href="<?= base_url('student/profile') ?>" class="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-lg hover:from-purple-600 hover:to-purple-700 transition-colors">
+    <a href="<?= base_url('student/profile') ?>" class="bg-purple-50 text-purple-700 p-6 rounded-lg shadow-sm hover:shadow hover:bg-purple-100 transition-all transform hover:scale-102">
         <div class="flex items-center">
             <svg class="h-8 w-8 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
             </svg>
             <div>
                 <h3 class="font-semibold">My Profile</h3>
-                <p class="text-purple-100 text-sm">Update your information</p>
+                <p class="text-purple-500 text-sm">Update your information</p>
             </div>
         </div>
     </a>
 
-    <a href="<?= base_url('student/dashboard') ?>" class="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-lg hover:from-green-600 hover:to-green-700 transition-colors">
+    <a href="<?= base_url('student/dashboard') ?>" class="bg-green-50 text-green-700 p-6 rounded-lg shadow-sm hover:shadow hover:bg-green-100 transition-all transform hover:scale-102">
         <div class="flex items-center">
             <svg class="h-8 w-8 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
             </svg>
             <div>
                 <h3 class="font-semibold">Dashboard</h3>
-                <p class="text-green-100 text-sm">View learning overview</p>
+                <p class="text-green-500 text-sm">View learning overview</p>
             </div>
         </div>
     </a>
@@ -63,7 +63,7 @@
             <h3 class="mt-4 text-lg font-medium text-gray-900">No enrolled courses yet</h3>
             <p class="mt-2 text-gray-500">You haven't enrolled in any courses. Start your learning journey today!</p>
             <div class="mt-8">
-                <a href="<?= base_url('home/courses') ?>" class="inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                <a href="<?= base_url('home/courses') ?>" class="inline-flex items-center px-6 py-3 shadow-sm text-base font-medium rounded-lg text-blue-700 bg-blue-50 hover:bg-blue-100 hover:shadow transition-all transform hover:scale-102">
                     <svg class="-ml-1 mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
@@ -149,7 +149,7 @@
                         <!-- Action Buttons -->
                         <div class="space-y-3">
                             <a href="<?= base_url('student/course/' . $course->id) ?>" 
-                               class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white text-center py-3 px-4 rounded-lg font-medium hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform hover:scale-105">
+                               class="w-full bg-blue-50 text-blue-700 text-center py-3 px-4 rounded-lg font-medium shadow-sm hover:shadow hover:bg-blue-100 transition-all transform hover:scale-102">
                                 <?php if (isset($course->progress_percentage) && $course->progress_percentage > 0): ?>
                                     Continue Learning
                                 <?php else: ?>
@@ -159,7 +159,7 @@
                             
                             <?php if (isset($course->next_lesson_id) && $course->next_lesson_id): ?>
                                 <a href="<?= base_url('student/lesson/' . $course->id . '/' . $course->next_lesson_id) ?>" 
-                                   class="w-full bg-gray-100 text-gray-700 text-center py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                                   class="w-full bg-gray-50 text-gray-700 text-center  ml-2 py-3 px-4 rounded-lg text-sm font-medium shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102">
                                     Resume Next Lesson
                                 </a>
                             <?php endif; ?>

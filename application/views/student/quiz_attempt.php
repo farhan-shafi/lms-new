@@ -125,7 +125,7 @@
                     Save and exit
                 </a>
                 <div>
-                    <input type="submit" name="submit_quiz" value="Submit Quiz" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <input type="submit" name="submit_quiz" value="Submit Quiz" class="inline-flex items-center px-6 py-3 text-base font-medium rounded-lg shadow-sm text-blue-700 bg-blue-50 hover:bg-blue-100 hover:shadow transition-all transform hover:scale-102">
                 </div>
             </div>
         <?php endif; ?>

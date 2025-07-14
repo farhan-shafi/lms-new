@@ -77,7 +77,7 @@
                         </div>
                         <?php endif; ?>
                         <p class="text-gray-600 mb-4 line-clamp-2"><?= character_limiter($course->description, 100) ?></p>
-                        <a href="<?= base_url('home/course/' . $course->id) ?>" class="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded">
+                        <a href="<?= base_url('home/course/' . $course->id) ?>" class="block text-center bg-indigo-50 text-indigo-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-indigo-100 transition-all transform hover:scale-102">
                             View Course
                         </a>
                     </div>

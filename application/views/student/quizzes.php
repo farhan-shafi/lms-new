@@ -10,7 +10,7 @@
                 </a>
             </p>
         </div>
-        <a href="<?= base_url('student/course/' . $course->id) ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded inline-flex items-center text-sm">
+        <a href="<?= base_url('student/course/' . $course->id) ?>" class="bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102 text-sm inline-flex items-center">
             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
@@ -157,7 +157,7 @@
                     
                     <!-- Card Footer -->
                     <div class="p-4 bg-gray-50 border-t border-gray-100">
-                        <a href="<?= base_url('student/take_quiz/' . $quiz->id) ?>" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                        <a href="<?= base_url('student/take_quiz/' . $quiz->id) ?>" class="w-full inline-flex justify-center items-center px-4 py-2 text-sm font-medium rounded-lg shadow-sm text-blue-700 bg-blue-50 hover:bg-blue-100 hover:shadow transition-all transform hover:scale-102">
                             <?php if (!empty($quiz->attempts) && $quiz->has_passed): ?>
                                 <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>

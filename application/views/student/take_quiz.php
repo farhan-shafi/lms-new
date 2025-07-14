@@ -13,7 +13,7 @@
                 </a>
             </p>
         </div>
-        <a href="<?= base_url('student/quizzes/' . $course->id) ?>" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded inline-flex items-center text-sm">
+        <a href="<?= base_url('student/quizzes/' . $course->id) ?>" class="bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102 text-sm inline-flex items-center">
             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
@@ -133,7 +133,7 @@
                                 <div class="mt-4">
                                     <form method="post" action="<?= base_url('student/quiz_attempt/' . $latest_attempt->id) ?>">
                                         <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>">
-                                        <button type="submit" name="resume_quiz" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                                        <button type="submit" name="resume_quiz" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg shadow-sm text-yellow-700 bg-yellow-50 hover:bg-yellow-100 hover:shadow transition-all transform hover:scale-102">
                                             Resume Quiz
                                         </button>
                                     </form>
@@ -161,7 +161,7 @@
                     <?php else: ?>
                         <form method="post" action="<?= base_url('student/quiz_attempt/' . $quiz->id) ?>">
                             <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>">
-                            <button type="submit" name="start_quiz" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <button type="submit" name="start_quiz" class="w-full inline-flex justify-center items-center px-4 py-2 text-base font-medium rounded-lg shadow-sm text-blue-700 bg-blue-50 hover:bg-blue-100 hover:shadow transition-all transform hover:scale-102">
                                 <?php if (empty($attempts)): ?>
                                     <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>

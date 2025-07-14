@@ -8,13 +8,13 @@
             </p>
         </div>
         <div class="flex space-x-2">
-            <a href="<?= base_url('instructor/quizzes/' . $course->id) ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded inline-flex items-center text-sm">
+            <a href="<?= base_url('instructor/quizzes/' . $course->id) ?>" class="bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102 inline-flex items-center text-sm">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
                 Back to Quizzes
             </a>
-            <a href="<?= base_url('instructor/quiz_results/' . $quiz->id) ?>" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded inline-flex items-center text-sm">
+            <a href="<?= base_url('instructor/quiz_results/' . $quiz->id) ?>" class="bg-blue-50 text-blue-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-blue-100 transition-all transform hover:scale-102 inline-flex items-center text-sm">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                 </svg>
@@ -83,7 +83,7 @@
         </div>
         
         <div class="mt-6">
-            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button type="submit" class="inline-flex justify-center py-2 px-4 shadow-sm text-sm font-medium rounded-lg text-indigo-700 bg-indigo-50 hover:bg-indigo-100 hover:shadow transition-all transform hover:scale-102">
                 Update Quiz
             </button>
         </div>
@@ -94,7 +94,7 @@
 <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-lg font-medium text-gray-900">Quiz Questions</h2>
-        <a href="<?= base_url('instructor/add_question/' . $quiz->id) ?>" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded inline-flex items-center text-sm">
+        <a href="<?= base_url('instructor/add_question/' . $quiz->id) ?>" class="bg-green-50 text-green-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-green-100 transition-all transform hover:scale-102 inline-flex items-center text-sm">
             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
             </svg>
@@ -110,7 +110,7 @@
             <h3 class="mt-2 text-sm font-medium text-gray-900">No questions found</h3>
             <p class="mt-1 text-sm text-gray-500">Get started by adding your first question.</p>
             <div class="mt-6">
-                <a href="<?= base_url('instructor/add_question/' . $quiz->id) ?>" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                <a href="<?= base_url('instructor/add_question/' . $quiz->id) ?>" class="inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-lg text-green-700 bg-green-50 hover:bg-green-100 hover:shadow transition-all transform hover:scale-102">
                     <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>

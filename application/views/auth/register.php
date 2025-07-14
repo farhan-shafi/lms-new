@@ -40,7 +40,7 @@
                 </div>
                 
                 <div class="flex items-center justify-between">
-                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    <button type="submit" class="bg-indigo-50 text-indigo-700 font-medium py-2.5 px-5 rounded-lg shadow-sm hover:shadow hover:bg-indigo-100 transition-all transform hover:scale-102">
                         Register
                     </button>
                     <a class="inline-block align-baseline font-bold text-sm text-indigo-600 hover:text-indigo-800" href="<?= base_url('auth/login') ?>">

@@ -63,7 +63,7 @@
                             <?php endif; ?>
                         </div>
                         <form action="<?= base_url('student/complete_lesson/' . $lesson->id) ?>" method="post">
-                            <button type="submit" class="<?= isset($is_completed) && $is_completed ? 'bg-green-600' : 'bg-indigo-600 hover:bg-indigo-700' ?> text-white font-medium py-2 px-4 rounded">
+                            <button type="submit" class="<?= isset($is_completed) && $is_completed ? 'bg-green-50 text-green-700' : 'bg-indigo-50 text-indigo-700' ?> font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:<?= isset($is_completed) && $is_completed ? 'bg-green-100' : 'bg-indigo-100' ?> transition-all transform hover:scale-102">
                                 <?= isset($is_completed) && $is_completed ? 'Completed' : 'Mark as Complete' ?>
                             </button>
                         </form>
@@ -87,7 +87,7 @@
                 ?>
                 
                 <?php if ($prev_lesson): ?>
-                    <a href="<?= base_url('home/lesson/' . $course->id . '/' . $prev_lesson->id) ?>" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded flex items-center">
+                    <a href="<?= base_url('home/lesson/' . $course->id . '/' . $prev_lesson->id) ?>" class="bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
@@ -98,14 +98,14 @@
                 <?php endif; ?>
                 
                 <?php if ($next_lesson): ?>
-                    <a href="<?= base_url('home/lesson/' . $course->id . '/' . $next_lesson->id) ?>" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded flex items-center">
+                    <a href="<?= base_url('home/lesson/' . $course->id . '/' . $next_lesson->id) ?>" class="bg-indigo-50 text-indigo-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-indigo-100 transition-all transform hover:scale-102 flex items-center">
                         Next Lesson
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </a>
                 <?php else: ?>
-                    <a href="<?= base_url('home/course/' . $course->id) ?>" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded flex items-center">
+                    <a href="<?= base_url('home/course/' . $course->id) ?>" class="bg-green-50 text-green-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-green-100 transition-all transform hover:scale-102 flex items-center">
                         Complete Course
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />

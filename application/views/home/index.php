@@ -81,7 +81,7 @@
             
             <?php if (count($courses) > 6): ?>
                 <div class="text-center mt-8">
-                    <a href="<?= base_url('home/courses') ?>" class="inline-block bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-medium py-2 px-6 rounded-lg">
+                    <a href="<?= base_url('home/courses') ?>" class="inline-block bg-indigo-50 text-indigo-700 font-medium py-2.5 px-6 rounded-lg shadow-sm hover:shadow hover:bg-indigo-100 transition-all transform hover:scale-102">
                         View All Courses
                     </a>
                 </div>
@@ -118,15 +118,15 @@
         <p class="text-xl mb-8 max-w-2xl mx-auto">Join our learning platform today and get access to all courses.</p>
         <?php if (!$this->session->userdata('logged_in')): ?>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="<?= base_url('auth/register') ?>" class="bg-white text-indigo-700 hover:bg-indigo-100 font-bold py-3 px-8 rounded-lg">
+                <a href="<?= base_url('auth/register') ?>" class="bg-white text-indigo-700 hover:bg-indigo-100 font-medium py-3 px-8 rounded-lg shadow-sm hover:shadow transition-all transform hover:scale-102">
                     Sign Up Now
                 </a>
-                <a href="<?= base_url('auth/login') ?>" class="bg-transparent hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg border border-white">
+                <a href="<?= base_url('auth/login') ?>" class="bg-transparent hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-lg border border-white hover:shadow transition-all transform hover:scale-102">
                     Login
                 </a>
             </div>
         <?php else: ?>
-            <a href="<?= base_url('home/courses') ?>" class="bg-white text-indigo-700 hover:bg-indigo-100 font-bold py-3 px-8 rounded-lg">
+            <a href="<?= base_url('home/courses') ?>" class="bg-white text-indigo-700 hover:bg-indigo-100 font-medium py-3 px-8 rounded-lg shadow-sm hover:shadow transition-all transform hover:scale-102">
                 Browse All Courses
             </a>
         <?php endif; ?>

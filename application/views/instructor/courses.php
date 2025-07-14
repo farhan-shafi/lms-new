@@ -2,8 +2,8 @@
 <div class="bg-white shadow rounded-lg p-6">
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold text-gray-900">My Courses</h2>
-        <a href="<?= base_url('instructor/create_course') ?>" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
-            <svg class="inline h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <a href="<?= base_url('instructor/create_course') ?>" class="bg-indigo-50 text-indigo-700 px-4 py-2 rounded-lg shadow-sm hover:shadow hover:bg-indigo-100 transition-all transform hover:scale-102 font-medium flex items-center">
+            <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
             </svg>
             Create New Course
@@ -18,7 +18,7 @@
             <h3 class="mt-2 text-sm font-medium text-gray-900">No courses</h3>
             <p class="mt-1 text-sm text-gray-500">Get started by creating your first course.</p>
             <div class="mt-6">
-                <a href="<?= base_url('instructor/create_course') ?>" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                <a href="<?= base_url('instructor/create_course') ?>" class="inline-flex items-center px-4 py-2 bg-indigo-50 text-indigo-700 shadow-sm text-sm font-medium rounded-lg hover:shadow hover:bg-indigo-100 transition-all transform hover:scale-102">
                     <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
@@ -68,27 +68,27 @@
                         </div>
                         
                         <div class="flex space-x-2 mb-2">
-                            <a href="<?= base_url('instructor/lessons/' . $course->id) ?>" class="flex-1 bg-blue-600 text-white text-center py-2 px-3 rounded text-sm hover:bg-blue-700">
+                            <a href="<?= base_url('instructor/lessons/' . $course->id) ?>" class="flex-1 bg-blue-50 text-blue-700 text-center py-2 px-3 rounded-lg shadow-sm hover:shadow hover:bg-blue-100 transition-all transform hover:scale-102 text-sm font-medium">
                                 Manage Lessons
                             </a>
-                            <a href="<?= base_url('instructor/quizzes/' . $course->id) ?>" class="flex-1 bg-purple-600 text-white text-center py-2 px-3 rounded text-sm hover:bg-purple-700">
+                            <a href="<?= base_url('instructor/quizzes/' . $course->id) ?>" class="flex-1 bg-purple-50 text-purple-700 text-center py-2 px-3 rounded-lg shadow-sm hover:shadow hover:bg-purple-100 transition-all transform hover:scale-102 text-sm font-medium">
                                 Manage Quizzes
                             </a>
                         </div>
                         <div class="flex space-x-2 mb-2">
-                            <a href="<?= base_url('instructor/course_analytics/' . $course->id) ?>" class="flex-1 bg-green-600 text-white text-center py-2 px-3 rounded text-sm hover:bg-green-700">
+                            <a href="<?= base_url('instructor/course_analytics/' . $course->id) ?>" class="flex-1 bg-green-50 text-green-700 text-center py-2 px-3 rounded-lg shadow-sm hover:shadow hover:bg-green-100 transition-all transform hover:scale-102 text-sm font-medium">
                                 Analytics
                             </a>
                         </div>
                         <div class="flex space-x-2">
-                            <a href="<?= base_url('instructor/edit_course/' . $course->id) ?>" class="flex-1 bg-gray-600 text-white text-center py-2 px-3 rounded text-sm hover:bg-gray-700">
+                            <a href="<?= base_url('instructor/edit_course/' . $course->id) ?>" class="flex-1 bg-gray-50 text-gray-700 text-center py-2 px-3 rounded-lg shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102 text-sm font-medium">
                                 Edit
                             </a>
-                            <a href="<?= base_url('home/course/' . $course->id) ?>" class="flex-1 bg-indigo-600 text-white text-center py-2 px-3 rounded text-sm hover:bg-indigo-700">
+                            <a href="<?= base_url('home/course/' . $course->id) ?>" class="flex-1 bg-indigo-50 text-indigo-700 text-center py-2 px-3 rounded-lg shadow-sm hover:shadow hover:bg-indigo-100 transition-all transform hover:scale-102 text-sm font-medium">
                                 View
                             </a>
                             <a href="<?= base_url('instructor/delete_course/' . $course->id) ?>" 
-                               class="bg-red-600 text-white py-2 px-3 rounded text-sm hover:bg-red-700"
+                               class="bg-red-50 text-red-700 py-2 px-3 rounded-lg shadow-sm hover:shadow hover:bg-red-100 transition-all transform hover:scale-102 text-sm font-medium"
                                onclick="return confirm('Are you sure you want to delete this course? This action cannot be undone.')">
                                 Delete
                             </a>

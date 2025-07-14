@@ -7,7 +7,7 @@
                 Create a new quiz for <span class="font-semibold"><?= $course->title ?></span>
             </p>
         </div>
-        <a href="<?= base_url('instructor/quizzes/' . $course->id) ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded inline-flex items-center text-sm">
+        <a href="<?= base_url('instructor/quizzes/' . $course->id) ?>" class="bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102 inline-flex items-center text-sm">
             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
@@ -134,11 +134,11 @@
         <!-- Form Actions -->
         <div class="flex justify-between pt-6 border-t border-gray-200">
             <a href="<?= base_url('instructor/quizzes/' . $course->id) ?>" 
-               class="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 transition-colors">
+               class="bg-gray-50 text-gray-700 px-6 py-2 rounded-lg shadow-sm hover:shadow hover:bg-gray-100 transition-all transform hover:scale-102">
                 Cancel
             </a>
             <button type="submit" 
-                    class="bg-purple-600 text-white px-6 py-2 rounded-md hover:bg-purple-700 transition-colors">
+                    class="bg-purple-50 text-purple-700 px-6 py-2 rounded-lg shadow-sm hover:shadow hover:bg-purple-100 transition-all transform hover:scale-102">
                 <svg class="inline h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                 </svg>
