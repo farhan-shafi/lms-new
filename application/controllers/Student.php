@@ -396,10 +396,15 @@ class Student extends CI_Controller {
         // Load Quiz model
         $this->load->model('quiz_model');
         
+        // Debug information
+        error_log('take_quiz method called for quiz_id: ' . $quiz_id);
+        error_log('POST data: ' . print_r($_POST, true));
+        
         // Get quiz details
         $data['quiz'] = $this->quiz_model->get_quiz($quiz_id);
         
         if (!$data['quiz']) {
+            error_log('Quiz not found: ' . $quiz_id);
             show_404();
         }
         
@@ -454,22 +459,53 @@ class Student extends CI_Controller {
         $data['is_in_progress'] = $is_in_progress;
         
         if ($this->input->post('start_quiz')) {
+            error_log('Starting new quiz attempt');
+            
             // Start a new quiz attempt
             $attempt_data = array(
                 'quiz_id' => $quiz_id,
-                'user_id' => $student_id
+                'user_id' => $student_id,
+                'started_at' => date('Y-m-d H:i:s')
             );
             
             $attempt_id = $this->quiz_model->start_quiz_attempt($attempt_data);
             
             if ($attempt_id) {
+                error_log('Quiz attempt created successfully, ID: ' . $attempt_id);
                 redirect('student/quiz_attempt/' . $attempt_id);
             } else {
+                error_log('Failed to create quiz attempt');
                 $this->session->set_flashdata('error', 'Failed to start quiz');
                 redirect('student/take_quiz/' . $quiz_id);
             }
-        } elseif ($this->input->post('resume_quiz') && $is_in_progress) {
-            redirect('student/quiz_attempt/' . $latest_attempt->id);
+        } elseif ($this->input->post('resume_quiz')) {
+            error_log('Resuming quiz attempt');
+            
+            // Check if there's a specific attempt ID to resume
+            $resume_attempt_id = $this->input->post('resume_attempt_id');
+            
+            if ($resume_attempt_id) {
+                error_log('Resuming specific attempt ID: ' . $resume_attempt_id);
+                
+                // Verify this attempt belongs to the user
+                $attempt = $this->quiz_model->get_quiz_attempt($resume_attempt_id);
+                
+                if ($attempt && $attempt->user_id == $student_id && $attempt->completed_at === null) {
+                    error_log('Valid attempt found, redirecting to quiz_attempt/' . $resume_attempt_id);
+                    redirect('student/quiz_attempt/' . $resume_attempt_id);
+                } else {
+                    error_log('Invalid quiz attempt ID: ' . $resume_attempt_id);
+                    $this->session->set_flashdata('error', 'Invalid quiz attempt');
+                    redirect('student/take_quiz/' . $quiz_id);
+                }
+            } elseif ($is_in_progress) {
+                error_log('Resuming latest attempt ID: ' . $latest_attempt->id);
+                redirect('student/quiz_attempt/' . $latest_attempt->id);
+            } else {
+                error_log('No in-progress quiz attempt found');
+                $this->session->set_flashdata('error', 'No in-progress quiz attempt found');
+                redirect('student/take_quiz/' . $quiz_id);
+            }
         }
         
         $data['title'] = 'Take Quiz - ' . $data['quiz']->title;
@@ -484,21 +520,49 @@ class Student extends CI_Controller {
         // Load Quiz model
         $this->load->model('quiz_model');
         
+        // Debug information
+        error_log('quiz_attempt method called for attempt_id: ' . $attempt_id);
+        error_log('POST data: ' . print_r($_POST, true));
+        
         // Get attempt details
         $data['attempt'] = $this->quiz_model->get_quiz_attempt($attempt_id);
         
         if (!$data['attempt']) {
+            error_log('Quiz attempt not found: ' . $attempt_id);
+            
+            // Check if $attempt_id is actually a quiz_id (direct access from take_quiz)
+            $quiz = $this->quiz_model->get_quiz($attempt_id);
+            if ($quiz) {
+                error_log('Attempt ID is actually a quiz ID: ' . $attempt_id);
+                // Create a new attempt for this quiz
+                $student_id = $this->session->userdata('user_id');
+                $attempt_data = array(
+                    'quiz_id' => $attempt_id,
+                    'user_id' => $student_id,
+                    'started_at' => date('Y-m-d H:i:s')
+                );
+                
+                $new_attempt_id = $this->quiz_model->start_quiz_attempt($attempt_data);
+                if ($new_attempt_id) {
+                    error_log('Created new attempt ID: ' . $new_attempt_id);
+                    redirect('student/quiz_attempt/' . $new_attempt_id);
+                    return;
+                }
+            }
+            
             show_404();
         }
         
         // Check if this is the student's attempt
         if ($data['attempt']->user_id != $this->session->userdata('user_id')) {
+            error_log('Unauthorized access to quiz attempt: ' . $attempt_id . ' by user: ' . $this->session->userdata('user_id'));
             $this->session->set_flashdata('error', 'You do not have permission to view this attempt');
             redirect('student/dashboard');
         }
         
         // Check if attempt is already completed
         if ($data['attempt']->completed_at !== null) {
+            error_log('Attempt already completed, redirecting to quiz_result: ' . $attempt_id);
             redirect('student/quiz_result/' . $attempt_id);
         }
         
@@ -523,6 +587,9 @@ class Student extends CI_Controller {
         
         // Handle quiz submission
         if ($this->input->post('submit_quiz')) {
+            error_log('Quiz submission received for attempt_id: ' . $attempt_id);
+            error_log('POST data: ' . print_r($_POST, true));
+            
             $total_points = 0;
             $total_possible = 0;
             
@@ -533,6 +600,7 @@ class Student extends CI_Controller {
                 
                 if ($question->question_type == 'multiple_choice') {
                     $selected_answer_id = $this->input->post('question_' . $question->id);
+                    error_log('Question ' . $question->id . ' - Selected answer: ' . ($selected_answer_id ? $selected_answer_id : 'none'));
                     
                     if ($selected_answer_id) {
                         foreach ($question->answers as $answer) {
@@ -556,6 +624,7 @@ class Student extends CI_Controller {
                     $this->quiz_model->save_attempt_answer($answer_data);
                 } elseif ($question->question_type == 'true_false') {
                     $selected_answer = $this->input->post('question_' . $question->id);
+                    error_log('Question ' . $question->id . ' - Selected answer: ' . ($selected_answer ? $selected_answer : 'none'));
                     
                     if ($selected_answer) {
                         foreach ($question->answers as $answer) {
@@ -580,6 +649,7 @@ class Student extends CI_Controller {
                     $this->quiz_model->save_attempt_answer($answer_data);
                 } elseif ($question->question_type == 'short_answer') {
                     $text_answer = $this->input->post('question_' . $question->id);
+                    error_log('Question ' . $question->id . ' - Text answer: ' . ($text_answer ? $text_answer : 'none'));
                     
                     if ($text_answer) {
                         $text_answer = trim(strtolower($text_answer));
@@ -613,6 +683,8 @@ class Student extends CI_Controller {
             $score = ($total_points / $total_possible) * 100;
             $passed = $score >= $data['quiz']->pass_percentage;
             
+            error_log('Quiz completed - Score: ' . $score . '%, Passed: ' . ($passed ? 'Yes' : 'No'));
+            
             // Complete the attempt
             $this->quiz_model->complete_quiz_attempt($attempt_id, $score, $passed);
             
@@ -631,10 +703,14 @@ class Student extends CI_Controller {
         // Load Quiz model
         $this->load->model('quiz_model');
         
+        // Debug information
+        error_log('quiz_result method called for attempt_id: ' . $attempt_id);
+        
         // Get attempt details
         $data['attempt'] = $this->quiz_model->get_quiz_attempt($attempt_id);
         
         if (!$data['attempt']) {
+            error_log('Quiz attempt not found: ' . $attempt_id);
             show_404();
         }
         
@@ -658,6 +734,9 @@ class Student extends CI_Controller {
         $this->db->order_by('quiz_questions.sort_order', 'ASC');
         $query = $this->db->get();
         $data['questions'] = $query->result();
+        
+        // Debug questions data
+        error_log('Questions data: ' . print_r($data['questions'], true));
         
         // Get answers for each question
         foreach ($data['questions'] as $question) {

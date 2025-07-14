@@ -108,3 +108,10 @@ $route['student/lesson/(:num)/(:num)'] = 'student/lesson/$1/$2';
 $route['student/enroll/(:num)'] = 'student/enroll/$1';
 $route['student/profile'] = 'student/profile';
 $route['student/edit_profile'] = 'student/edit_profile';
+
+// Student quiz routes
+$route['student/quizzes/(:num)'] = 'student/quizzes/$1';
+$route['student/take_quiz/(:num)'] = 'student/take_quiz/$1';
+$route['student/quiz_attempt/(:num)'] = 'student/quiz_attempt/$1';
+$route['student/quiz_result/(:num)'] = 'student/quiz_result/$1';
+$route['student/rate_course/(:num)'] = 'student/rate_course/$1';

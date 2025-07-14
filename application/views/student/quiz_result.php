@@ -95,7 +95,7 @@
                             <?= $index + 1 ?>
                         </div>
                         <div class="flex-1">
-                            <h3 class="text-lg font-medium text-gray-900"><?= htmlspecialchars($question->question) ?></h3>
+                            <h3 class="text-lg font-medium text-gray-900"><?= htmlspecialchars($question->question_text) ?></h3>
                             <p class="text-sm text-gray-500 mt-1">
                                 <?= ucfirst($question->question_type) ?> · <?= $question->points ?> point<?= $question->points != 1 ? 's' : '' ?>
                                 <?php if (isset($question->points_earned)): ?>
@@ -126,63 +126,67 @@
                     
                     <?php if ($question->question_type == 'multiple_choice'): ?>
                         <div class="pl-12 space-y-2">
-                            <?php foreach ($question->answers as $answer): ?>
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-5 w-5 mr-2">
-                                        <?php if ($answer->id == $question->answer_id && $answer->is_correct): ?>
-                                            <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                        <?php elseif ($answer->id == $question->answer_id && !$answer->is_correct): ?>
-                                            <svg class="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                        <?php elseif ($answer->is_correct): ?>
-                                            <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                        <?php else: ?>
-                                            <div class="h-5 w-5 border border-gray-300 rounded-full"></div>
-                                        <?php endif; ?>
+                            <?php if (isset($question->answers) && is_array($question->answers)): ?>
+                                <?php foreach ($question->answers as $answer): ?>
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-5 w-5 mr-2">
+                                            <?php if (isset($question->answer_id) && $answer->id == $question->answer_id && $answer->is_correct): ?>
+                                                <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            <?php elseif (isset($question->answer_id) && $answer->id == $question->answer_id && !$answer->is_correct): ?>
+                                                <svg class="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            <?php elseif ($answer->is_correct): ?>
+                                                <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            <?php else: ?>
+                                                <div class="h-5 w-5 border border-gray-300 rounded-full"></div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <span class="text-sm <?= $answer->is_correct ? 'font-medium' : '' ?> <?= isset($question->answer_id) && $answer->id == $question->answer_id ? 'text-gray-900' : 'text-gray-600' ?>">
+                                            <?= htmlspecialchars($answer->answer_text) ?>
+                                            <?php if ($answer->is_correct): ?>
+                                                <span class="text-xs text-green-600 ml-2">(Correct answer)</span>
+                                            <?php endif; ?>
+                                        </span>
                                     </div>
-                                    <span class="text-sm <?= $answer->is_correct ? 'font-medium' : '' ?> <?= $answer->id == $question->answer_id ? 'text-gray-900' : 'text-gray-600' ?>">
-                                        <?= htmlspecialchars($answer->answer_text) ?>
-                                        <?php if ($answer->is_correct): ?>
-                                            <span class="text-xs text-green-600 ml-2">(Correct answer)</span>
-                                        <?php endif; ?>
-                                    </span>
-                                </div>
-                            <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                     <?php elseif ($question->question_type == 'true_false'): ?>
                         <div class="pl-12 space-y-2">
-                            <?php foreach ($question->answers as $answer): ?>
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-5 w-5 mr-2">
-                                        <?php if ($answer->id == $question->answer_id && $answer->is_correct): ?>
-                                            <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                        <?php elseif ($answer->id == $question->answer_id && !$answer->is_correct): ?>
-                                            <svg class="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                        <?php elseif ($answer->is_correct): ?>
-                                            <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                        <?php else: ?>
-                                            <div class="h-5 w-5 border border-gray-300 rounded-full"></div>
-                                        <?php endif; ?>
+                            <?php if (isset($question->answers) && is_array($question->answers)): ?>
+                                <?php foreach ($question->answers as $answer): ?>
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-5 w-5 mr-2">
+                                            <?php if (isset($question->answer_id) && $answer->id == $question->answer_id && $answer->is_correct): ?>
+                                                <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            <?php elseif (isset($question->answer_id) && $answer->id == $question->answer_id && !$answer->is_correct): ?>
+                                                <svg class="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            <?php elseif ($answer->is_correct): ?>
+                                                <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            <?php else: ?>
+                                                <div class="h-5 w-5 border border-gray-300 rounded-full"></div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <span class="text-sm <?= $answer->is_correct ? 'font-medium' : '' ?> <?= isset($question->answer_id) && $answer->id == $question->answer_id ? 'text-gray-900' : 'text-gray-600' ?>">
+                                            <?= $answer->answer_text ?>
+                                            <?php if ($answer->is_correct): ?>
+                                                <span class="text-xs text-green-600 ml-2">(Correct answer)</span>
+                                            <?php endif; ?>
+                                        </span>
                                     </div>
-                                    <span class="text-sm <?= $answer->is_correct ? 'font-medium' : '' ?> <?= $answer->id == $question->answer_id ? 'text-gray-900' : 'text-gray-600' ?>">
-                                        <?= $answer->answer_text ?>
-                                        <?php if ($answer->is_correct): ?>
-                                            <span class="text-xs text-green-600 ml-2">(Correct answer)</span>
-                                        <?php endif; ?>
-                                    </span>
-                                </div>
-                            <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                     <?php elseif ($question->question_type == 'short_answer'): ?>
                         <div class="pl-12">
@@ -196,9 +200,11 @@
                             <div>
                                 <p class="text-sm font-medium text-gray-700">Accepted Answers:</p>
                                 <div class="mt-1 space-y-1">
-                                    <?php foreach ($question->answers as $answer): ?>
-                                        <p class="text-sm text-green-600"><?= htmlspecialchars($answer->answer_text) ?></p>
-                                    <?php endforeach; ?>
+                                    <?php if (isset($question->answers) && is_array($question->answers)): ?>
+                                        <?php foreach ($question->answers as $answer): ?>
+                                            <p class="text-sm text-green-600"><?= htmlspecialchars($answer->answer_text) ?></p>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>

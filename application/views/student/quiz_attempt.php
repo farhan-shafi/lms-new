@@ -23,7 +23,8 @@
 
 <!-- Quiz Content -->
 <div class="bg-white shadow rounded-lg p-6 mb-6">
-    <form id="quiz-form" method="post" action="<?= base_url('student/quiz_attempt/' . $attempt->id) ?>">
+    <form id="quiz-form" method="post" action="<?= current_url() ?>">
+        <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>">
         <?php if (empty($questions)): ?>
             <div class="text-center py-8">
                 <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,9 +124,9 @@
                 <a href="<?= base_url('student/take_quiz/' . $quiz->id) ?>" class="text-blue-600 hover:text-blue-800" onclick="return confirm('Are you sure you want to leave? Your progress will be saved, but the quiz will not be submitted.');">
                     Save and exit
                 </a>
-                <button type="submit" name="submit_quiz" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    Submit Quiz
-                </button>
+                <div>
+                    <input type="submit" name="submit_quiz" value="Submit Quiz" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                </div>
             </div>
         <?php endif; ?>
     </form>
@@ -228,15 +229,23 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('input', updateQuestionStatus);
     });
     
-    // Confirm before submitting
-    document.getElementById('quiz-form').addEventListener('submit', function(e) {
+    // Simple form submission
+    const form = document.getElementById('quiz-form');
+    form.addEventListener('submit', function(e) {
+        console.log('Form submission triggered');
         const unansweredCount = document.querySelectorAll('.question-nav-btn:not(.bg-green-500)').length;
         
         if (unansweredCount > 0) {
-            if (!confirm(`You have ${unansweredCount} unanswered question(s). Are you sure you want to submit the quiz?`)) {
+            const confirmSubmit = confirm(`You have ${unansweredCount} unanswered question(s). Are you sure you want to submit the quiz?`);
+            if (!confirmSubmit) {
                 e.preventDefault();
+                console.log('Form submission cancelled');
+                return false;
             }
         }
+        
+        console.log('Form being submitted');
+        return true;
     });
     
     // Initial update

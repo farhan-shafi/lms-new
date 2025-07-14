@@ -131,7 +131,8 @@
                                     <p>You started this quiz on <?= date('M j, Y g:i A', strtotime($latest_attempt->started_at)) ?> but haven't completed it yet.</p>
                                 </div>
                                 <div class="mt-4">
-                                    <form method="post">
+                                    <form method="post" action="<?= base_url('student/quiz_attempt/' . $latest_attempt->id) ?>">
+                                        <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>">
                                         <button type="submit" name="resume_quiz" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
                                             Resume Quiz
                                         </button>
@@ -158,7 +159,8 @@
                             </div>
                         </div>
                     <?php else: ?>
-                        <form method="post">
+                        <form method="post" action="<?= base_url('student/quiz_attempt/' . $quiz->id) ?>">
+                            <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>">
                             <button type="submit" name="start_quiz" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                 <?php if (empty($attempts)): ?>
                                     <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -221,7 +223,8 @@
                             <?php else: ?>
                                 <div class="flex items-center justify-between">
                                     <span class="text-sm text-gray-600">Not completed</span>
-                                    <form method="post">
+                                    <form method="post" action="<?= base_url('student/quiz_attempt/' . $attempt->id) ?>">
+                                        <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>">
                                         <input type="hidden" name="resume_attempt_id" value="<?= $attempt->id ?>">
                                         <button type="submit" name="resume_quiz" class="text-blue-600 hover:text-blue-800 text-sm">
                                             Resume
