@@ -13,7 +13,7 @@
     <div class="container mx-auto px-4">
         <div class="flex flex-col md:flex-row items-center gap-12">
             <div class="md:w-1/2">
-                <img src="<?= base_url('uploads/images/about-team.jpg') ?>" alt="Our Story" class="rounded-lg shadow-lg">
+                <img src="<?= base_url('uploads/images/about-team.jpg') ?>" alt="Our Story" class="rounded-lg">
             </div>
             <div class="md:w-1/2">
                 <h2 class="text-3xl font-bold mb-6 text-gray-800">Our Story</h2>
@@ -95,38 +95,22 @@
             </p>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 text-center">
                 <div class="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4">
-                    <img src="https://source.unsplash.com/random/300x300/?portrait,man" alt="John Doe" class="w-full h-full object-cover">
+                    <img src="<?= base_url('uploads/images/farhan.jpg') ?>"  alt="Farhan Shafi" class="w-full h-full object-top object-cover">
                 </div>
-                <h3 class="text-xl font-bold mb-1">John Doe</h3>
-                <p class="text-indigo-600 mb-3">Founder & CEO</p>
-                <p class="text-gray-600 text-sm">
-                    With over 15 years of experience in education technology, John leads our vision to transform online learning.
-                </p>
+                <h3 class="text-xl font-bold mb-1">Farhan Shafi</h3>
+                <p class="text-indigo-600 mb-3">Developer</p>
             </div>
             
             <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 text-center">
                 <div class="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4">
-                    <img src="https://source.unsplash.com/random/300x300/?portrait,woman" alt="Jane Smith" class="w-full h-full object-cover">
+                    <img src="<?= base_url('uploads/images/sarim.jpg') ?>"  alt="Sarim Mehmood" class="w-full h-full object-top object-cover">
                 </div>
-                <h3 class="text-xl font-bold mb-1">Jane Smith</h3>
-                <p class="text-indigo-600 mb-3">Head of Education</p>
-                <p class="text-gray-600 text-sm">
-                    Jane brings her extensive background in curriculum development to ensure our courses meet the highest standards.
-                </p>
-            </div>
-            
-            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 text-center">
-                <div class="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4">
-                    <img src="https://source.unsplash.com/random/300x300/?portrait,person" alt="Michael Johnson" class="w-full h-full object-cover">
-                </div>
-                <h3 class="text-xl font-bold mb-1">Michael Johnson</h3>
-                <p class="text-indigo-600 mb-3">Chief Technology Officer</p>
-                <p class="text-gray-600 text-sm">
-                    Michael oversees our platform development, ensuring a seamless and engaging learning experience.
-                </p>
+                <h3 class="text-xl font-bold mb-1">Sarim Mehmood</h3>
+				<p class="text-indigo-600 mb-3">Developer</p>
+
             </div>
         </div>
     </div>

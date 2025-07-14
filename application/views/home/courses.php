@@ -1,5 +1,5 @@
 <!-- Page Header -->
-<div class="bg-indigo-700 text-white py-12">
+<div class="bg-indigo-800 text-white py-12 rounded-xl">
     <div class="container mx-auto px-4">
         <h1 class="text-3xl font-bold">All Courses</h1>
         <p class="mt-2">Browse all available courses</p>

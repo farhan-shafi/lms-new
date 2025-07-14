@@ -1,5 +1,5 @@
 <!-- Course Header -->
-<div class="bg-indigo-700 text-white py-12">
+<div class="bg-indigo-800 text-white py-12 rounded-xl">
     <div class="container mx-auto px-4">
         <div class="flex flex-col md:flex-row items-center">
             <div class="md:w-2/3 mb-6 md:mb-0 md:pr-8">

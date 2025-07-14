@@ -1,5 +1,5 @@
 <!-- Welcome Section -->
-<div class="bg-gradient-to-r from-indigo-700 to-blue-600 shadow-lg">
+<div class="bg-gradient-to-r from-indigo-800 to-purple-800 rounded-xl shadow-lg">
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-2xl md:text-3xl font-bold text-white">Student Dashboard</h1>
         <p class="text-indigo-100 mt-1">Welcome, <?= $this->session->userdata('full_name') ?>!</p>

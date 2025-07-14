@@ -34,7 +34,7 @@
             <?php foreach ($quizzes as $quiz): ?>
                 <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full">
                     <!-- Card Header with Gradient Background -->
-                    <div class="p-5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+                    <div class="p-5 bg-gradient-to-r from-indigo-800 to-purple-800 text-white">
                         <h3 class="text-lg font-bold mb-1 truncate"><?= $quiz->title ?></h3>
                         <?php if (isset($quiz->question_count)): ?>
                             <div class="flex items-center text-blue-100 text-sm">
