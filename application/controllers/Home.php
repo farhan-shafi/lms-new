@@ -190,4 +190,38 @@ class Home extends CI_Controller {
         
         redirect('home/course/' . $course_id);
     }
+    
+    public function about() {
+        $data['title'] = 'About Us - Mentora Learning Platform';
+        
+        // Load views
+        $this->load->view('templates/header', $data);
+        $this->load->view('home/about', $data);
+        $this->load->view('templates/footer');
+    }
+    
+    public function contact() {
+        // Load form validation library
+        $this->load->library('form_validation');
+        
+        // Form validation rules
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('subject', 'Subject', 'required');
+        $this->form_validation->set_rules('message', 'Message', 'required');
+        
+        if ($this->form_validation->run() === FALSE) {
+            $data['title'] = 'Contact Us - Mentora Learning Platform';
+            
+            // Load views
+            $this->load->view('templates/header', $data);
+            $this->load->view('home/contact', $data);
+            $this->load->view('templates/footer');
+        } else {
+            // Process the form submission
+            // In a real application, you would send an email or save to database
+            $this->session->set_flashdata('success', 'Thank you for contacting us! We will get back to you soon.');
+            redirect('home/contact');
+        }
+    }
 } 

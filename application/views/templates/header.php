@@ -13,7 +13,7 @@
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
     <!-- Navigation -->
-    <nav class="bg-indigo-600 text-white shadow-lg">
+    <nav class="bg-indigo-800 text-white shadow-lg">
         <div class="container mx-auto px-4 py-3">
             <div class="flex justify-between items-center">
                 <!-- Logo -->
@@ -31,6 +31,8 @@
                 <div class="hidden md:flex space-x-6">
                     <a href="<?= base_url() ?>" class="hover:text-indigo-200">Home</a>
                     <a href="<?= base_url('home/courses') ?>" class="hover:text-indigo-200">Courses</a>
+                    <a href="<?= base_url('home/about') ?>" class="hover:text-indigo-200">About</a>
+                    <a href="<?= base_url('home/contact') ?>" class="hover:text-indigo-200">Contact</a>
                 </div>
                 
                 <!-- User Menu -->
@@ -134,6 +136,8 @@
         <div class="px-2 pt-2 pb-3 space-y-1">
             <a href="<?= base_url() ?>" class="block px-3 py-2 text-white hover:bg-indigo-600 rounded-md">Home</a>
             <a href="<?= base_url('home/courses') ?>" class="block px-3 py-2 text-white hover:bg-indigo-600 rounded-md">Courses</a>
+            <a href="<?= base_url('home/about') ?>" class="block px-3 py-2 text-white hover:bg-indigo-600 rounded-md">About</a>
+            <a href="<?= base_url('home/contact') ?>" class="block px-3 py-2 text-white hover:bg-indigo-600 rounded-md">Contact</a>
             <?php if ($this->session->userdata('logged_in')): ?>
                 <?php if ($this->session->userdata('role') == 'admin'): ?>
                     <a href="<?= base_url('admin/dashboard') ?>" class="block px-3 py-2 text-white hover:bg-indigo-600 rounded-md">Admin Dashboard</a>

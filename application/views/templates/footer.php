@@ -16,6 +16,8 @@
                 <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6">
                     <a href="<?= base_url() ?>" class="hover:text-indigo-200">Home</a>
                     <a href="<?= base_url('home/courses') ?>" class="hover:text-indigo-200">Courses</a>
+                    <a href="<?= base_url('home/about') ?>" class="hover:text-indigo-200">About</a>
+                    <a href="<?= base_url('home/contact') ?>" class="hover:text-indigo-200">Contact</a>
                     <?php if (!$this->session->userdata('logged_in')): ?>
                         <a href="<?= base_url('auth/login') ?>" class="hover:text-indigo-200">Login</a>
                         <a href="<?= base_url('auth/register') ?>" class="hover:text-indigo-200">Register</a>
