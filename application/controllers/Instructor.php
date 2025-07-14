@@ -996,6 +996,15 @@ class Instructor extends CI_Controller {
         // Load Quiz model
         $this->load->model('quiz_model');
         
+        // Process feedback form submission
+        if ($this->input->post('feedback') !== null) {
+            $feedback = $this->input->post('feedback');
+            $this->db->where('id', $attempt_id);
+            $this->db->update('quiz_attempts', ['feedback' => $feedback]);
+            
+            $this->session->set_flashdata('success', 'Feedback has been sent to the student');
+        }
+        
         // Get attempt details
         $this->db->select('quiz_attempts.*, users.username, users.full_name');
         $this->db->from('quiz_attempts');

@@ -40,6 +40,25 @@
         <?php endif; ?>
     </div>
     
+    <?php if (!empty($attempt->feedback)): ?>
+    <!-- Instructor Feedback -->
+    <div class="border-t border-gray-200 pt-6 mb-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-3">Instructor Feedback</h3>
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-blue-800"><?= nl2br(htmlspecialchars($attempt->feedback)) ?></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+    
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div class="bg-gray-50 rounded-lg p-4">
             <p class="text-sm text-gray-500 font-medium">Your Score</p>

@@ -204,10 +204,16 @@
 <div class="mt-6 bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
     <h2 class="text-lg font-medium text-gray-900 mb-4">Instructor Feedback</h2>
     
-    <form action="#" method="post" class="space-y-4">
+    <?php if ($this->session->flashdata('success')): ?>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline"><?= $this->session->flashdata('success') ?></span>
+        </div>
+    <?php endif; ?>
+    
+    <form action="<?= base_url('instructor/view_attempt/' . $attempt->id) ?>" method="post" class="space-y-4">
         <div>
             <label for="feedback" class="block text-sm font-medium text-gray-700 mb-1">Feedback (Optional)</label>
-            <textarea id="feedback" name="feedback" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Provide feedback to the student about their quiz performance..."></textarea>
+            <textarea id="feedback" name="feedback" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Provide feedback to the student about their quiz performance..."><?= isset($attempt->feedback) ? htmlspecialchars($attempt->feedback) : '' ?></textarea>
         </div>
         
         <div class="flex justify-end">
