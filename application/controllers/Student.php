@@ -294,7 +294,7 @@ class Student extends CI_Controller {
         }
     }
 
-    public function toggle_lesson_completion($lesson_id) {
+        public function toggle_lesson_completion($lesson_id) {
         // Ensure AJAX request
         if (!$this->input->is_ajax_request()) {
             show_404();
@@ -333,7 +333,7 @@ class Student extends CI_Controller {
             $progress = $this->lesson_model->get_course_progress($student_id, $lesson->course_id);
             
             echo json_encode(array(
-                'success' => true, 
+                'success' => true,
                 'message' => $message,
                 'progress' => $progress,
                 'completed' => !$is_completed
@@ -341,6 +341,37 @@ class Student extends CI_Controller {
         } else {
             echo json_encode(array('success' => false, 'message' => 'Failed to update lesson status'));
         }
+    }
+    
+    public function complete_lesson($lesson_id) {
+        $student_id = $this->session->userdata('user_id');
+        $lesson = $this->lesson_model->get_lesson($lesson_id);
+        
+        if (!$lesson) {
+            $this->session->set_flashdata('error', 'Lesson not found');
+            redirect('student/dashboard');
+            return;
+        }
+        
+        // Check if student is enrolled in the course
+        $is_enrolled = $this->course_model->is_enrolled($student_id, $lesson->course_id);
+        if (!$is_enrolled) {
+            $this->session->set_flashdata('error', 'You are not enrolled in this course');
+            redirect('student/dashboard');
+            return;
+        }
+        
+        // Mark lesson as completed
+        $result = $this->lesson_model->mark_lesson_completed($student_id, $lesson_id);
+        
+        if ($result) {
+            $this->session->set_flashdata('success', 'Lesson marked as completed!');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to mark lesson as completed');
+        }
+        
+        // Redirect back to the lesson
+        redirect('student/lesson/' . $lesson->course_id . '/' . $lesson_id);
     }
 
     // Quiz Taking
