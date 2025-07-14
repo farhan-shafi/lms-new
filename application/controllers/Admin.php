@@ -9,6 +9,7 @@ class Admin extends CI_Controller {
         $this->load->model('course_model');
         $this->load->model('category_model');
         $this->load->model('lesson_model');
+        $this->load->model('rating_model');
         $this->load->helper('url');
         $this->load->library('session');
         $this->load->library('form_validation');

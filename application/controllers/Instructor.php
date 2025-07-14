@@ -9,6 +9,7 @@ class Instructor extends CI_Controller {
         $this->load->model('course_model');
         $this->load->model('category_model');
         $this->load->model('lesson_model');
+        $this->load->model('rating_model');
         $this->load->helper('url');
         $this->load->library('session');
         $this->load->library('form_validation');
@@ -369,6 +370,9 @@ class Instructor extends CI_Controller {
             $this->session->set_flashdata('error', 'You do not have permission to view analytics for this course');
             redirect('instructor/courses');
         }
+        
+        // Load Rating model for course ratings
+        $this->load->model('rating_model');
         
         $data['title'] = 'Course Analytics - ' . $data['analytics']['course']->title;
         
