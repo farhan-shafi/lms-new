@@ -56,15 +56,15 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <h3 class="font-bold">Lesson Progress</h3>
-                            <?php if ($is_completed): ?>
+                            <?php if (isset($is_completed) && $is_completed): ?>
                                 <p class="text-green-600 text-sm">You have completed this lesson</p>
                             <?php else: ?>
                                 <p class="text-gray-600 text-sm">Mark as complete when you're done</p>
                             <?php endif; ?>
                         </div>
                         <form action="<?= base_url('student/complete_lesson/' . $lesson->id) ?>" method="post">
-                            <button type="submit" class="<?= $is_completed ? 'bg-green-600' : 'bg-indigo-600 hover:bg-indigo-700' ?> text-white font-medium py-2 px-4 rounded">
-                                <?= $is_completed ? 'Completed' : 'Mark as Complete' ?>
+                            <button type="submit" class="<?= isset($is_completed) && $is_completed ? 'bg-green-600' : 'bg-indigo-600 hover:bg-indigo-700' ?> text-white font-medium py-2 px-4 rounded">
+                                <?= isset($is_completed) && $is_completed ? 'Completed' : 'Mark as Complete' ?>
                             </button>
                         </form>
                     </div>

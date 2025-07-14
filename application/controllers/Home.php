@@ -113,11 +113,20 @@ class Home extends CI_Controller {
         // Get all lessons for navigation
         $data['lessons'] = $this->lesson_model->get_course_lessons($course_id);
         
-        // Mark lesson as accessed
-        $this->lesson_model->mark_lesson_completed(
+        // Check if lesson is completed by the user
+        $data['is_completed'] = $this->lesson_model->is_lesson_completed(
             $this->session->userdata('user_id'),
             $lesson_id
         );
+        
+        // Get course progress if user is a student
+        if ($this->session->userdata('role') == 'student') {
+            $progress = $this->lesson_model->get_course_progress(
+                $this->session->userdata('user_id'),
+                $course_id
+            );
+            $data['progress'] = $progress['percentage'];
+        }
         
         $data['title'] = $data['lesson']->title . ' - ' . $data['course']->title;
         

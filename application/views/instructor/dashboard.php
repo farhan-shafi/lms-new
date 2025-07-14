@@ -118,7 +118,7 @@
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Enrollments</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lessons</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Manage</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
@@ -161,8 +161,11 @@
                                         </a>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <a href="<?= base_url('instructor/lessons/' . $course->id) ?>" class="text-indigo-600 hover:text-indigo-900">
-                                            Manage Lessons
+                                        <a href="<?= base_url('instructor/lessons/' . $course->id) ?>" class="text-indigo-600 hover:text-indigo-900 block">
+                                            Lessons
+                                        </a>
+                                        <a href="<?= base_url('instructor/quizzes/' . $course->id) ?>" class="text-purple-600 hover:text-purple-900 block mt-1">
+                                            Quizzes
                                         </a>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">

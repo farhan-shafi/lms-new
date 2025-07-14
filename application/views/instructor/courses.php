@@ -49,6 +49,11 @@
                             <a href="<?= base_url('instructor/lessons/' . $course->id) ?>" class="flex-1 bg-blue-600 text-white text-center py-2 px-3 rounded text-sm hover:bg-blue-700">
                                 Manage Lessons
                             </a>
+                            <a href="<?= base_url('instructor/quizzes/' . $course->id) ?>" class="flex-1 bg-purple-600 text-white text-center py-2 px-3 rounded text-sm hover:bg-purple-700">
+                                Manage Quizzes
+                            </a>
+                        </div>
+                        <div class="flex space-x-2 mb-2">
                             <a href="<?= base_url('instructor/course_analytics/' . $course->id) ?>" class="flex-1 bg-green-600 text-white text-center py-2 px-3 rounded text-sm hover:bg-green-700">
                                 Analytics
                             </a>

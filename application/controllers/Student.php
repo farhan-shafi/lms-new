@@ -341,4 +341,393 @@ class Student extends CI_Controller {
             echo json_encode(array('success' => false, 'message' => 'Failed to update lesson status'));
         }
     }
+
+    // Quiz Taking
+    
+    public function quizzes($course_id) {
+        // Get course details
+        $data['course'] = $this->course_model->get_course($course_id);
+        
+        if (!$data['course']) {
+            show_404();
+        }
+        
+        // Check if course is published
+        if ($data['course']->status != 'published') {
+            $this->session->set_flashdata('error', 'This course is not available');
+            redirect('student/courses');
+        }
+        
+        // Check if student is enrolled
+        $student_id = $this->session->userdata('user_id');
+        $is_enrolled = $this->course_model->is_enrolled($student_id, $course_id);
+        
+        if (!$is_enrolled) {
+            $this->session->set_flashdata('error', 'You need to enroll in this course to access quizzes');
+            redirect('student/course/' . $course_id);
+        }
+        
+        // Load Quiz model
+        $this->load->model('quiz_model');
+        
+        // Get quizzes for this course
+        $data['quizzes'] = $this->quiz_model->get_course_quizzes($course_id);
+        
+        // Get attempt information for each quiz
+        foreach ($data['quizzes'] as $quiz) {
+            $quiz->attempts = $this->quiz_model->get_user_quiz_attempts($student_id, $quiz->id);
+            $quiz->has_passed = $this->quiz_model->has_user_passed_quiz($student_id, $quiz->id);
+            
+            // Get question count for each quiz
+            $questions = $this->quiz_model->get_quiz_questions($quiz->id);
+            $quiz->question_count = count($questions);
+        }
+        
+        $data['title'] = 'Course Quizzes - ' . $data['course']->title;
+        
+        // Load views
+        $this->load->view('templates/header', $data);
+        $this->load->view('student/quizzes', $data);
+        $this->load->view('templates/footer');
+    }
+    
+    public function take_quiz($quiz_id) {
+        // Load Quiz model
+        $this->load->model('quiz_model');
+        
+        // Get quiz details
+        $data['quiz'] = $this->quiz_model->get_quiz($quiz_id);
+        
+        if (!$data['quiz']) {
+            show_404();
+        }
+        
+        // Set default value for attempts_allowed if not present
+        if (!isset($data['quiz']->attempts_allowed)) {
+            $data['quiz']->attempts_allowed = -1; // Unlimited attempts by default
+        }
+        
+        // Get course details
+        $data['course'] = $this->course_model->get_course($data['quiz']->course_id);
+        
+        // Check if course is published
+        if ($data['course']->status != 'published') {
+            $this->session->set_flashdata('error', 'This course is not available');
+            redirect('student/courses');
+        }
+        
+        // Check if quiz is published
+        if ($data['quiz']->status != 'published') {
+            $this->session->set_flashdata('error', 'This quiz is not available');
+            redirect('student/quizzes/' . $data['quiz']->course_id);
+        }
+        
+        // Check if student is enrolled
+        $student_id = $this->session->userdata('user_id');
+        $is_enrolled = $this->course_model->is_enrolled($student_id, $data['quiz']->course_id);
+        
+        if (!$is_enrolled) {
+            $this->session->set_flashdata('error', 'You need to enroll in this course to take quizzes');
+            redirect('student/course/' . $data['quiz']->course_id);
+        }
+        
+        // Check if quiz has questions
+        $questions = $this->quiz_model->get_quiz_questions($quiz_id);
+        if (empty($questions)) {
+            $this->session->set_flashdata('error', 'This quiz has no questions yet');
+            redirect('student/quizzes/' . $data['quiz']->course_id);
+        }
+        
+        // Check if student has already passed this quiz
+        $has_passed = $this->quiz_model->has_user_passed_quiz($student_id, $quiz_id);
+        $data['has_passed'] = $has_passed;
+        
+        // Get previous attempts
+        $data['attempts'] = $this->quiz_model->get_user_quiz_attempts($student_id, $quiz_id);
+        
+        // Check if student is currently taking the quiz
+        $latest_attempt = $this->quiz_model->get_user_latest_attempt($student_id, $quiz_id);
+        $data['latest_attempt'] = $latest_attempt;
+        
+        $is_in_progress = $latest_attempt && $latest_attempt->completed_at === null;
+        $data['is_in_progress'] = $is_in_progress;
+        
+        if ($this->input->post('start_quiz')) {
+            // Start a new quiz attempt
+            $attempt_data = array(
+                'quiz_id' => $quiz_id,
+                'user_id' => $student_id
+            );
+            
+            $attempt_id = $this->quiz_model->start_quiz_attempt($attempt_data);
+            
+            if ($attempt_id) {
+                redirect('student/quiz_attempt/' . $attempt_id);
+            } else {
+                $this->session->set_flashdata('error', 'Failed to start quiz');
+                redirect('student/take_quiz/' . $quiz_id);
+            }
+        } elseif ($this->input->post('resume_quiz') && $is_in_progress) {
+            redirect('student/quiz_attempt/' . $latest_attempt->id);
+        }
+        
+        $data['title'] = 'Take Quiz - ' . $data['quiz']->title;
+        
+        // Load views
+        $this->load->view('templates/header', $data);
+        $this->load->view('student/take_quiz', $data);
+        $this->load->view('templates/footer');
+    }
+    
+    public function quiz_attempt($attempt_id) {
+        // Load Quiz model
+        $this->load->model('quiz_model');
+        
+        // Get attempt details
+        $data['attempt'] = $this->quiz_model->get_quiz_attempt($attempt_id);
+        
+        if (!$data['attempt']) {
+            show_404();
+        }
+        
+        // Check if this is the student's attempt
+        if ($data['attempt']->user_id != $this->session->userdata('user_id')) {
+            $this->session->set_flashdata('error', 'You do not have permission to view this attempt');
+            redirect('student/dashboard');
+        }
+        
+        // Check if attempt is already completed
+        if ($data['attempt']->completed_at !== null) {
+            redirect('student/quiz_result/' . $attempt_id);
+        }
+        
+        // Get quiz details
+        $data['quiz'] = $this->quiz_model->get_quiz($data['attempt']->quiz_id);
+        
+        // Get course details
+        $data['course'] = $this->course_model->get_course($data['quiz']->course_id);
+        
+        // Get questions for this quiz
+        $data['questions'] = $this->quiz_model->get_quiz_questions($data['quiz']->id);
+        
+        // Get answers for each question
+        foreach ($data['questions'] as $question) {
+            $question->answers = $this->quiz_model->get_question_answers($question->id);
+            
+            // Shuffle multiple choice answers
+            if ($question->question_type == 'multiple_choice') {
+                shuffle($question->answers);
+            }
+        }
+        
+        // Handle quiz submission
+        if ($this->input->post('submit_quiz')) {
+            $total_points = 0;
+            $total_possible = 0;
+            
+            foreach ($data['questions'] as $question) {
+                $total_possible += $question->points;
+                $points_earned = 0;
+                $is_correct = false;
+                
+                if ($question->question_type == 'multiple_choice') {
+                    $selected_answer_id = $this->input->post('question_' . $question->id);
+                    
+                    if ($selected_answer_id) {
+                        foreach ($question->answers as $answer) {
+                            if ($answer->id == $selected_answer_id && $answer->is_correct) {
+                                $points_earned = $question->points;
+                                $is_correct = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // Save answer
+                    $answer_data = array(
+                        'attempt_id' => $attempt_id,
+                        'question_id' => $question->id,
+                        'answer_id' => $selected_answer_id,
+                        'is_correct' => $is_correct ? 1 : 0,
+                        'points_earned' => $points_earned
+                    );
+                    
+                    $this->quiz_model->save_attempt_answer($answer_data);
+                } elseif ($question->question_type == 'true_false') {
+                    $selected_answer = $this->input->post('question_' . $question->id);
+                    
+                    if ($selected_answer) {
+                        foreach ($question->answers as $answer) {
+                            if (($answer->answer_text == 'True' && $selected_answer == 'true' && $answer->is_correct) ||
+                                ($answer->answer_text == 'False' && $selected_answer == 'false' && $answer->is_correct)) {
+                                $points_earned = $question->points;
+                                $is_correct = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // Save answer
+                    $answer_data = array(
+                        'attempt_id' => $attempt_id,
+                        'question_id' => $question->id,
+                        'text_answer' => $selected_answer,
+                        'is_correct' => $is_correct ? 1 : 0,
+                        'points_earned' => $points_earned
+                    );
+                    
+                    $this->quiz_model->save_attempt_answer($answer_data);
+                } elseif ($question->question_type == 'short_answer') {
+                    $text_answer = $this->input->post('question_' . $question->id);
+                    
+                    if ($text_answer) {
+                        $text_answer = trim(strtolower($text_answer));
+                        
+                        foreach ($question->answers as $answer) {
+                            $correct_answer = trim(strtolower($answer->answer_text));
+                            if ($text_answer == $correct_answer) {
+                                $points_earned = $question->points;
+                                $is_correct = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // Save answer
+                    $answer_data = array(
+                        'attempt_id' => $attempt_id,
+                        'question_id' => $question->id,
+                        'text_answer' => $text_answer,
+                        'is_correct' => $is_correct ? 1 : 0,
+                        'points_earned' => $points_earned
+                    );
+                    
+                    $this->quiz_model->save_attempt_answer($answer_data);
+                }
+                
+                $total_points += $points_earned;
+            }
+            
+            // Calculate score
+            $score = ($total_points / $total_possible) * 100;
+            $passed = $score >= $data['quiz']->pass_percentage;
+            
+            // Complete the attempt
+            $this->quiz_model->complete_quiz_attempt($attempt_id, $score, $passed);
+            
+            redirect('student/quiz_result/' . $attempt_id);
+        }
+        
+        $data['title'] = 'Quiz: ' . $data['quiz']->title;
+        
+        // Load views
+        $this->load->view('templates/header', $data);
+        $this->load->view('student/quiz_attempt', $data);
+        $this->load->view('templates/footer');
+    }
+    
+    public function quiz_result($attempt_id) {
+        // Load Quiz model
+        $this->load->model('quiz_model');
+        
+        // Get attempt details
+        $data['attempt'] = $this->quiz_model->get_quiz_attempt($attempt_id);
+        
+        if (!$data['attempt']) {
+            show_404();
+        }
+        
+        // Check if this is the student's attempt
+        if ($data['attempt']->user_id != $this->session->userdata('user_id')) {
+            $this->session->set_flashdata('error', 'You do not have permission to view this attempt');
+            redirect('student/dashboard');
+        }
+        
+        // Get quiz details
+        $data['quiz'] = $this->quiz_model->get_quiz($data['attempt']->quiz_id);
+        
+        // Get course details
+        $data['course'] = $this->course_model->get_course($data['quiz']->course_id);
+        
+        // Get questions and answers
+        $this->db->select('quiz_questions.*, quiz_attempt_answers.text_answer, quiz_attempt_answers.is_correct, quiz_attempt_answers.points_earned, quiz_attempt_answers.answer_id');
+        $this->db->from('quiz_questions');
+        $this->db->join('quiz_attempt_answers', 'quiz_attempt_answers.question_id = quiz_questions.id AND quiz_attempt_answers.attempt_id = ' . $attempt_id, 'left');
+        $this->db->where('quiz_questions.quiz_id', $data['quiz']->id);
+        $this->db->order_by('quiz_questions.sort_order', 'ASC');
+        $query = $this->db->get();
+        $data['questions'] = $query->result();
+        
+        // Get answers for each question
+        foreach ($data['questions'] as $question) {
+            $question->answers = $this->quiz_model->get_question_answers($question->id);
+        }
+        
+        $data['title'] = 'Quiz Results - ' . $data['quiz']->title;
+        
+        // Load views
+        $this->load->view('templates/header', $data);
+        $this->load->view('student/quiz_result', $data);
+        $this->load->view('templates/footer');
+    }
+
+    // Course Rating
+    
+    public function rate_course($course_id) {
+        // Check if student is enrolled
+        $student_id = $this->session->userdata('user_id');
+        $is_enrolled = $this->course_model->is_enrolled($student_id, $course_id);
+        
+        if (!$is_enrolled) {
+            $this->session->set_flashdata('error', 'You need to enroll in this course to rate it');
+            redirect('student/course/' . $course_id);
+        }
+        
+        // Get course details
+        $data['course'] = $this->course_model->get_course($course_id);
+        
+        if (!$data['course']) {
+            show_404();
+        }
+        
+        // Load Rating model
+        $this->load->model('rating_model');
+        
+        // Load form validation library
+        $this->load->library('form_validation');
+        
+        // Get existing rating
+        $data['rating'] = $this->rating_model->get_user_course_rating($student_id, $course_id);
+        
+        // Form validation rules
+        $this->form_validation->set_rules('rating', 'Rating', 'required|numeric|greater_than[0]|less_than_equal_to[5]');
+        
+        if ($this->form_validation->run() === FALSE) {
+            $data['title'] = 'Rate Course - ' . $data['course']->title;
+            
+            // Load views
+            $this->load->view('templates/header', $data);
+            $this->load->view('student/rate_course', $data);
+            $this->load->view('templates/footer');
+        } else {
+            // Get form data
+            $rating_data = array(
+                'course_id' => $course_id,
+                'user_id' => $student_id,
+                'rating' => $this->input->post('rating'),
+                'review' => $this->input->post('review')
+            );
+            
+            // Save rating
+            $result = $this->rating_model->rate_course($rating_data);
+            
+            if ($result) {
+                $this->session->set_flashdata('success', 'Thank you for rating this course!');
+            } else {
+                $this->session->set_flashdata('error', 'Failed to save your rating');
+            }
+            
+            redirect('student/course/' . $course_id);
+        }
+    }
 } 

@@ -597,3 +597,4 @@ class Admin extends CI_Controller {
         $this->load->view('templates/footer');
     }
 } 
+ 

@@ -57,8 +57,8 @@
                     </a>
                                         <button onclick="toggleLessonCompletion()" 
                             id="completion-btn"
-                            class="<?= $is_completed ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-green-600 hover:bg-green-700' ?> text-white px-4 py-2 rounded-md transition-colors">
-                        <?= $is_completed ? 'Mark as Incomplete' : 'Mark as Complete' ?>
+                            class="<?= isset($is_completed) && $is_completed ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-green-600 hover:bg-green-700' ?> text-white px-4 py-2 rounded-md transition-colors">
+                        <?= isset($is_completed) && $is_completed ? 'Mark as Incomplete' : 'Mark as Complete' ?>
                     </button>
                 </div>
             </div>
