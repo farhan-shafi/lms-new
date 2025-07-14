@@ -86,7 +86,7 @@
                             <?= $index + 1 ?>
                         </div>
                         <div class="flex-1">
-                            <h3 class="text-lg font-medium text-gray-900"><?= htmlspecialchars($question->question) ?></h3>
+                            <h3 class="text-lg font-medium text-gray-900"><?= htmlspecialchars($question->question_text) ?></h3>
                             <p class="text-sm text-gray-500 mt-1">
                                 <?= ucfirst($question->question_type) ?> · <?= $question->points ?> point<?= $question->points != 1 ? 's' : '' ?>
                                 <?php if (isset($question->points_earned)): ?>
