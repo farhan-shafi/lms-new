@@ -106,7 +106,7 @@
             
             <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 text-center">
                 <div class="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4">
-                    <img src="<?= base_url('uploads/images/sarim.jpg') ?>"  alt="Sarim Mehmood" class="w-full h-full object-top object-cover">
+                    <img src="<?= base_url('uploads/images/sarim.jpeg') ?>"  alt="Sarim Mehmood" class="w-full h-full object-center object-cover">
                 </div>
                 <h3 class="text-xl font-bold mb-1">Sarim Mehmood</h3>
 				<p class="text-indigo-600 mb-3">Developer</p>
